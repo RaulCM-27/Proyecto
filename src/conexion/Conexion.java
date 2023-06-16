@@ -34,18 +34,14 @@ public class Conexion {
         return st.executeQuery(sql);
     }
     
+    public void CERRAR(){
+        try{
+           conexion.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+} 
     
+
     
-    
-    
-}
-
-
-
-
-
-
-
-
-
-
