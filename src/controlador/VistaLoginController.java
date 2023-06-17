@@ -62,7 +62,7 @@ public class VistaLoginController implements Initializable {
     private void iniciarSesion(ActionEvent event) {
         
         Conexion con = new Conexion();
-        Connection cn = cn=(Connection) con.ConectarseBD();
+        Connection cn = con.ConectarseBD();
 
     }
 

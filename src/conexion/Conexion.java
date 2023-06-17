@@ -1,7 +1,7 @@
 
 package conexion;
 
-import java.sql.Connection;
+import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;
 /**
@@ -15,7 +15,7 @@ public class Conexion {
     public Connection ConectarseBD(){     
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            cn=DriverManager.getConnection("jdbc:mysql://localhost/login_java_mysql","root","");
+            cn=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/login_java_mysql","root","");
             JOptionPane.showMessageDialog(null, "CONEXION EXITOSA");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR DE CONEXION!"+e);
