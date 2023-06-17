@@ -5,14 +5,44 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="295.0" prefWidth="275.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="controlador.VistaLoginController">
+<AnchorPane id="AnchorPane" prefHeight="526.0" prefWidth="787.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.VistaLoginController">
    <children>
-      <Label layoutX="62.0" layoutY="80.0" text="Usuario:" />
-      <Label layoutX="64.0" layoutY="139.0" text="Contraseña:" />
-      <Button fx:id="btnIniciar" layoutX="63.0" layoutY="203.0" mnemonicParsing="false" onAction="#iniciarSesion" prefHeight="25.0" prefWidth="149.0" text="Iniciar Sesion" />
-      <TextField fx:id="txtUsuario" layoutX="64.0" layoutY="97.0" />
-      <PasswordField fx:id="txtContraseña" layoutX="63.0" layoutY="156.0" />
+      <Pane layoutX="403.0" prefHeight="526.0" prefWidth="384.0">
+         <children>
+            <Label layoutX="58.0" layoutY="142.0" text="Usuario:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="58.0" layoutY="235.0" text="Contraseña:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtUsuario" layoutX="58.0" layoutY="169.0" onKeyTyped="#eventKey" prefHeight="39.0" prefWidth="277.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <PasswordField fx:id="txtContraseña" layoutX="58.0" layoutY="262.0" prefHeight="39.0" prefWidth="277.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </PasswordField>
+            <Button fx:id="btnIniciar" layoutX="58.0" layoutY="344.0" mnemonicParsing="false" onAction="#iniciarSesion" prefHeight="39.0" prefWidth="277.0" text="Iniciar Sesion">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnRegistrarse" layoutX="58.0" layoutY="411.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="277.0" text="Registrarse">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

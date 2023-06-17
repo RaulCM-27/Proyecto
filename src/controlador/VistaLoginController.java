@@ -7,7 +7,6 @@ package controlador;
 import com.mysql.jdbc.Connection;
 import conexion.Conexion;
 import java.net.URL;
-import java.sql.DriverManager;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,13 +24,26 @@ import javax.swing.JOptionPane;
  */
 public class VistaLoginController implements Initializable {
     
+   
+        
     @FXML
     private Button btnIniciar;
     @FXML
     private TextField txtUsuario;
     @FXML
     private PasswordField txtContraseña;
+    @FXML
+    private Button btnRegistrarse;
 
+     @FXML
+    private void eventKey(KeyEvent event) {
+        String c = event.getCharacter();
+        
+        if(c.equalsIgnoreCase(" ")){
+            event.consume();
+        }
+    }
+    
     /**
      * Initializes the controller class.
      */
@@ -41,10 +54,10 @@ public class VistaLoginController implements Initializable {
 
     @FXML
     private void iniciarSesion(ActionEvent event) {
-      
-        Conexion con=new Conexion();
         
-        
+        Conexion con = new Conexion();
+        Connection cn = cn=(Connection) con.ConectarseBD();
+
     }
     
 }
