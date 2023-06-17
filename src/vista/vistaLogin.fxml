@@ -37,7 +37,7 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="btnRegistrarse" layoutX="58.0" layoutY="411.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="277.0" text="Registrarse">
+            <Button fx:id="btnRegistrar" layoutX="58.0" layoutY="411.0" mnemonicParsing="false" onAction="#registrarUsuario" prefHeight="39.0" prefWidth="277.0" text="Registrarse">
                <font>
                   <Font size="18.0" />
                </font>
