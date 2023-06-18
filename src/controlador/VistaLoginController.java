@@ -81,7 +81,7 @@ public class VistaLoginController implements Initializable {
 
                         Parent root = loader.load();
 
-                        VistaRegistroController controlador = loader.getController();
+                        VistaVendedorController controlador = loader.getController();
 
                         Scene scene = new Scene(root);
                         Stage stage = new Stage();
@@ -95,8 +95,8 @@ public class VistaLoginController implements Initializable {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/vistaAdmin.fxml"));
 
                         Parent root = loader.load();
-
-                        VistaRegistroController controlador = loader.getController();
+                        //llamar controlador 
+                        VistaAdminController controlador = loader.getController();
 
                         Scene scene = new Scene(root);
                         Stage stage = new Stage();
