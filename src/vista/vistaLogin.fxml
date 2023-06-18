@@ -4,45 +4,57 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="526.0" prefWidth="787.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.VistaLoginController">
+<AnchorPane id="AnchorPane" prefHeight="526.0" prefWidth="787.0" style="-fx-background-color: #08071B;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.VistaLoginController">
    <children>
-      <Pane layoutX="403.0" prefHeight="526.0" prefWidth="384.0">
+      <Pane layoutX="403.0" prefHeight="526.0" prefWidth="384.0" style="-fx-background-color: #02010E;">
          <children>
-            <Label layoutX="58.0" layoutY="142.0" text="Usuario:">
+            <Label layoutX="62.0" layoutY="184.0" text="Usuario:" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="58.0" layoutY="235.0" text="Contraseña:">
+            <Label layoutX="62.0" layoutY="277.0" text="Contraseña:" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="txtUsuario" layoutX="58.0" layoutY="169.0" onKeyTyped="#eventKey" prefHeight="39.0" prefWidth="277.0">
+            <TextField fx:id="txtUsuario" layoutX="62.0" layoutY="211.0" onKeyTyped="#eventKey" prefHeight="14.0" prefWidth="277.0" promptText="Ingrese su usuario" style="tra: #1E2126;" styleClass="background">
                <font>
-                  <Font size="18.0" />
+                  <Font size="16.0" />
                </font>
             </TextField>
-            <PasswordField fx:id="txtContraseña" layoutX="58.0" layoutY="262.0" prefHeight="39.0" prefWidth="277.0">
+            <PasswordField fx:id="txtContraseña" layoutX="62.0" layoutY="304.0" prefHeight="31.0" prefWidth="277.0" promptText="Ingrese su contraseña">
                <font>
-                  <Font size="18.0" />
+                  <Font size="16.0" />
                </font>
             </PasswordField>
-            <Button fx:id="btnIniciar" layoutX="58.0" layoutY="344.0" mnemonicParsing="false" onAction="#iniciarSesion" prefHeight="39.0" prefWidth="277.0" text="Iniciar Sesion">
+            <Button fx:id="btnIniciar" layoutX="62.0" layoutY="382.0" mnemonicParsing="false" onAction="#iniciarSesion" prefHeight="39.0" prefWidth="277.0" style="-fx-background-color: #2848BA;" text="Iniciar Sesion" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="btnRegistrar" layoutX="58.0" layoutY="411.0" mnemonicParsing="false" onAction="#registrarUsuario" prefHeight="39.0" prefWidth="277.0" text="Registrarse">
+            <Button fx:id="btnRegistrar" layoutX="62.0" layoutY="447.0" mnemonicParsing="false" onAction="#registrarUsuario" prefHeight="39.0" prefWidth="277.0" style="-fx-background-color: #2848BA;" text="Registrarse" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font size="16.0" />
                </font>
             </Button>
+            <ImageView fitHeight="146.0" fitWidth="145.0" layoutX="128.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagenes/iniciar%20sesion.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
+      <ImageView fitHeight="306.0" fitWidth="432.0" layoutX="-3.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../imagenes/thumbnail-removebg-preview.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

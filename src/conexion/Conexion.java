@@ -16,7 +16,6 @@ public class Conexion {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             cn=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/login_java_mysql","root","");
-            JOptionPane.showMessageDialog(null, "CONEXION EXITOSA");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR DE CONEXION!"+e);
         }

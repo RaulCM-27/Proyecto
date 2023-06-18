@@ -14,9 +14,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javax.swing.JOptionPane;
 import com.mysql.jdbc.Connection;
 import conexion.Conexion;
+import javafx.scene.control.Alert;
 
 
 /**
@@ -55,7 +55,7 @@ public class VistaRegistroController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         ArrayList<String> list = new ArrayList<>();
-        Collections.addAll(list, new String[]{"Admin", "vendedor"});
+        Collections.addAll(list, new String[]{"admin", "vendedor"});
         
         cbTipoUsuario.getItems().addAll(list);
     }    
@@ -79,19 +79,33 @@ public class VistaRegistroController implements Initializable {
         
         //validacion
         if(nombre.isEmpty() || usuario.isEmpty() || contraseña.isEmpty()){
-            JOptionPane.showMessageDialog(null, "POR FAVOR COMPLETAR DATOS!!");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Advertencia");
+            alert.setHeaderText("Por favor completar datos");
+            alert.showAndWait();
         }else{
-            if(tipoUsuario.equalsIgnoreCase(null)){
-                JOptionPane.showMessageDialog(null, "Ingresar Tipo de Usuario");
+            if(tipoUsuario == null || tipoUsuario.isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Advertencia");
+                alert.setHeaderText("Ingresar Tipo de Usuario");
+                alert.showAndWait();
             }else{
                 try {
                     String consulta = "INSERT into usuario(nombre, usuario, contraseña, tipoUsuario)values('"+nombre+"','"+usuario+"','"+contraseña+"','"+tipoUsuario+"')";
                     PreparedStatement ps =(PreparedStatement) cn.prepareStatement(consulta); 
                     ps.executeUpdate();
                     limpiar();
-                    JOptionPane.showMessageDialog(null, "DATOS REGISTRADOR CORRECTAMENTE");
+                    
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Información");
+                    alert.setHeaderText("Datos registrados correctamente");
+                    alert.showAndWait();
                 } catch(Exception e){
-                    JOptionPane.showMessageDialog(null, "ERROR AL REGISTRAR USUARIO!!"+e);
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Error al registrar usuario");
+                    alert.setContentText(e.getMessage());
+                    alert.showAndWait();
                 }
             }
         }
