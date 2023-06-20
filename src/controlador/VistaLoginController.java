@@ -87,7 +87,7 @@ public class VistaLoginController implements Initializable {
                         Stage stage = new Stage();
                         stage.initModality(Modality.APPLICATION_MODAL);
                         stage.setScene(scene);
-                        stage.showAndWait();
+                        stage.showAndWait();                       
                     }
 
                     //METODO QUE ME ABRE PRIVILEGIOS DE ADMIN
@@ -105,14 +105,14 @@ public class VistaLoginController implements Initializable {
                         stage.showAndWait();
                     }
                 } else {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
                     alert.setHeaderText("USUARIO Y CONTRASEÑA INCORRECTOS");
                     alert.showAndWait();
                 }
 
             } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("NO SE PUEDE INICIAR SESION");
                 alert.showAndWait();
@@ -123,8 +123,7 @@ public class VistaLoginController implements Initializable {
             alert.setTitle("Advertencia");
             alert.setHeaderText("POR FAVOR COMPLETAR LOS CAMPOS");
             alert.showAndWait();
-        }
-
+        }       
     }
 
     @FXML
@@ -138,10 +137,17 @@ public class VistaLoginController implements Initializable {
 
         Scene scene = new Scene(root);
         Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
+        
         stage.setScene(scene);
-        stage.showAndWait();
-
+        stage.show();
+        
+        stage.setOnCloseRequest(e -> controlador.closeWindows());
+        
+        Stage myStage = (Stage) this.btnRegistrar.getScene().getWindow();
+        myStage.close();
     }
+    
+    
 
 }
+ 
