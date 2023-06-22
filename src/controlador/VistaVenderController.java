@@ -13,7 +13,7 @@ import javafx.fxml.Initializable;
  *
  * @author raul_correa
  */
-public class VistaVendedorController implements Initializable {
+public class VistaVenderController implements Initializable {
 
     /**
      * Initializes the controller class.
@@ -23,5 +23,4 @@ public class VistaVendedorController implements Initializable {
         // TODO
     }    
     
-  
 }
