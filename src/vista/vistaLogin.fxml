@@ -24,12 +24,12 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="txtUsuario" layoutX="62.0" layoutY="211.0" onKeyTyped="#eventKey" prefHeight="14.0" prefWidth="277.0" promptText="Ingrese su usuario" style="tra: #1E2126;" styleClass="background">
+            <TextField fx:id="txtUsuario" layoutX="62.0" layoutY="211.0" onKeyTyped="#eventKey" opacity="0.88" prefHeight="14.0" prefWidth="277.0" promptText="Ingrese su usuario" style="tra: #1E2126;" styleClass="background">
                <font>
                   <Font size="16.0" />
                </font>
             </TextField>
-            <PasswordField fx:id="txtContraseña" layoutX="62.0" layoutY="304.0" prefHeight="31.0" prefWidth="277.0" promptText="Ingrese su contraseña">
+            <PasswordField fx:id="txtContraseña" layoutX="62.0" layoutY="304.0" opacity="0.88" prefHeight="31.0" prefWidth="277.0" promptText="Ingrese su contraseña">
                <font>
                   <Font size="16.0" />
                </font>

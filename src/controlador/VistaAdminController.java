@@ -10,9 +10,11 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
@@ -23,22 +25,42 @@ public class VistaAdminController implements Initializable {
 
     @FXML
     private Button btnCliente;
+
     @FXML
-    private AnchorPane paneCliente;
+    private Button btCatalogo;
+
+    @FXML
+    private Pane panePrincipal;
+
+    private Node vistaCliente;
+    private Node vistaCatalogo;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        try {
+            FXMLLoader clienteLoader = new FXMLLoader(getClass().getResource("/vista/vistaCliente.fxml"));
+            vistaCliente = clienteLoader.load();
+
+            FXMLLoader catalogoLoader = new FXMLLoader(getClass().getResource("/vista/vistaCatalogo.fxml"));
+            vistaCatalogo = catalogoLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void cargarVistaCliente(MouseEvent event) throws IOException {
-        
-        AnchorPane secondFXML = FXMLLoader.load(getClass().getResource("/vista/vistaCliente.fxml"));
-        paneCliente.getChildren().setAll(secondFXML);
+
+        panePrincipal.getChildren().setAll(vistaCliente);
     }
-    
+
+    @FXML
+    private void cargarVistaCatalogo(MouseEvent event) throws IOException {
+      
+        panePrincipal.getChildren().setAll(vistaCatalogo);
+    }
+
 }

@@ -5,11 +5,13 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="490.0" prefWidth="823.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.VistaClienteController">
+<AnchorPane id="AnchorPane" prefHeight="490.0" prefWidth="823.0" style="-fx-background-color: #08071B;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.VistaClienteController">
    <children>
       <Pane prefHeight="151.0" prefWidth="823.0" style="-fx-background-color: #08071B;">
          <children>
@@ -18,55 +20,76 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="456.0" layoutY="20.0" text="Nombre:" textFill="WHITE">
+            <Label layoutX="457.0" layoutY="20.0" text="Nombre:" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="89.0" layoutY="75.0" text="Telédono:" textFill="WHITE">
+            <Label layoutX="84.0" layoutY="75.0" text="Telédono:" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="453.0" layoutY="75.0" text="Dirección:" textFill="WHITE">
+            <Label layoutX="454.0" layoutY="75.0" text="Dirección:" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txtID" layoutX="155.0" layoutY="14.0" prefHeight="25.0" prefWidth="220.0">
+            <TextField fx:id="txtID" layoutX="155.0" layoutY="14.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0">
                <font>
                   <Font size="14.0" />
                </font>
             </TextField>
-            <TextField fx:id="txtTelefono" layoutX="155.0" layoutY="69.0" prefHeight="25.0" prefWidth="220.0">
+            <TextField fx:id="txtTelefono" layoutX="155.0" layoutY="69.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0">
                <font>
                   <Font size="14.0" />
                </font>
             </TextField>
-            <TextField fx:id="txtNombre" layoutX="523.0" layoutY="15.0" prefHeight="25.0" prefWidth="220.0">
+            <TextField fx:id="txtNombre" layoutX="523.0" layoutY="15.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0">
                <font>
                   <Font size="14.0" />
                </font>
             </TextField>
-            <TextField fx:id="txtDireccion" layoutX="523.0" layoutY="70.0" prefHeight="25.0" prefWidth="220.0">
+            <TextField fx:id="txtDireccion" layoutX="523.0" layoutY="70.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0">
                <font>
                   <Font size="14.0" />
                </font>
             </TextField>
-            <Button fx:id="btnGuardar" layoutX="265.0" layoutY="112.0" mnemonicParsing="false" onAction="#setAddCliente" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #2848BA;" text="GUARDAR" textFill="WHITE">
+            <Button fx:id="btnGuardar" layoutX="247.0" layoutY="112.0" mnemonicParsing="false" onAction="#setAddCliente" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="GUARDAR" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/disco-flexible.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
-            <Button fx:id="btnLimpiar" layoutX="386.0" layoutY="112.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #2848BA;" text="LIMPIAR" textFill="WHITE">
+            <Button fx:id="btnLimpiar" layoutX="375.0" layoutY="113.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="LIMPIAR" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/limpiar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
-            <Button fx:id="btnEliminar" layoutX="510.0" layoutY="112.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #2848BA;" text="ELIMINAR" textFill="WHITE">
+            <Button fx:id="btnEliminar" layoutX="505.0" layoutY="113.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="ELIMINAR" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/eliminar%20(1).png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
          </children>
       </Pane>

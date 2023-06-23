@@ -72,7 +72,7 @@ public class VistaClienteController implements Initializable {
             int telefono = Integer.parseInt(txtTelefono.getText());
             String direccion = txtDireccion.getText();
 
-            if (idExiste(id)) {
+            if (getBuscarID(id)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("ID Duplicado");
@@ -105,12 +105,19 @@ public class VistaClienteController implements Initializable {
         }
     }
 
-    private boolean idExiste(int id) {
-        for (Cliente cliente : tblCliente.getItems()) {
-            if (cliente.getID() == id) {
-                return true;
+    public boolean getBuscarID(int id) {
+        if (cab == null) {
+            return false;
+        } else {
+            Cliente p = cab;
+            while (p != null) {
+                if (p.getID() == id) {
+                    return true;
+                } else {
+                    p = p.getSig();
+                }
             }
+            return false;
         }
-        return false;
     }
 }
