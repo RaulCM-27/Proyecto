@@ -17,7 +17,7 @@ public class Cliente {
         this.nombre = nombre;
         this.telefono = telefono;
         this.direccion = direccion;
-        Cliente sig;
+        sig = null;
     }
 
     public int getID() {

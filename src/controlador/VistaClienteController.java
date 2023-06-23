@@ -6,6 +6,9 @@ package controlador;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Stack;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -51,42 +54,68 @@ public class VistaClienteController implements Initializable {
     @FXML
     private TableColumn colDireccion;
 
-    private ObservableList<Cliente> clientes;
+    Cliente cab;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        clientes = FXCollections.observableArrayList();
-
-        this.colID.setCellFactory(new PropertyValueFactory("ID"));
-        this.colNombre.setCellFactory(new PropertyValueFactory("Nombre"));
-        this.colTelefono.setCellFactory(new PropertyValueFactory("Telefono"));
-        this.colDireccion.setCellFactory(new PropertyValueFactory("Direccion"));
+        colID.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+        colDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
     }
 
     @FXML
-    private void agregarCliente(ActionEvent event) {
-        
-            int id = Integer.parseInt(this.txtID.getText());
-            String nombre = this.txtNombre.getText();
-            int telefono = Integer.parseInt(this.txtTelefono.getText());
-            String direccion = this.txtDireccion.getText();
+    private void setAddCliente(ActionEvent event) {
 
-            Cliente c = new Cliente(id, nombre, telefono, direccion);
+        try {
 
-            if (!this.clientes.contains(c)) {
-                this.clientes.add(c);
-                this.tblCliente.setItems(clientes);
-            } else {
+            int id = Integer.parseInt(txtID.getText());
+            String nombre = txtNombre.getText();
+            int telefono = Integer.parseInt(txtTelefono.getText());
+            String direccion = txtDireccion.getText();
+
+            if (idExiste(id)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("ERROR");
-                alert.setHeaderText("CLIENTE EXISTENTE");
+                alert.setTitle("Error");
+                alert.setHeaderText("ID Duplicado");
+                alert.setContentText("El ID ingresado ya existe en la lista.");
                 alert.showAndWait();
+                txtID.setText("");
+                txtID.requestFocus();
+                return;
             }
-     
+
+            Cliente cliente = new Cliente(id, nombre, telefono, direccion);
+
+            if (cab == null) {
+                cab = cliente;
+            } else {
+                Cliente ultimoNodo = cab;
+                while (ultimoNodo.getSig() != null) {
+                    ultimoNodo = ultimoNodo.getSig();
+                }
+                ultimoNodo.setSig(cliente);
+            }
+            tblCliente.getItems().add(cliente);
+
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Valor no válido");
+            alert.setContentText("El ID o teléfono no es un número válido");
+            alert.showAndWait();
+        }
     }
 
+    private boolean idExiste(int id) {
+        for (Cliente cliente : tblCliente.getItems()) {
+            if (cliente.getID() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
