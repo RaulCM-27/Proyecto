@@ -80,7 +80,14 @@
                   </Button>
                </children>
             </Pane>
-            <Pane layoutX="186.0" layoutY="142.0" prefHeight="490.0" prefWidth="823.0" />
+            <Pane layoutX="186.0" layoutY="142.0" prefHeight="490.0" prefWidth="823.0">
+               <children>
+                  <ImageView fitHeight="381.0" fitWidth="476.0" layoutX="221.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/bienvenidos.png" />
+                     </image>
+                  </ImageView>
+               </children></Pane>
          </children>
       </Pane>
    </children>

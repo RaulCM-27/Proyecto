@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="490.0" prefWidth="823.0" style="-fx-background-color: #08071B;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="controlador.VistaVentasController">
+   <children>
+      <TableView layoutX="14.0" layoutY="64.0" prefHeight="412.0" prefWidth="794.0">
+        <columns>
+          <TableColumn prefWidth="132.0" text="NUMERO DE TICKET" />
+          <TableColumn minWidth="0.0" prefWidth="216.0" text="CLIENTE" />
+            <TableColumn prefWidth="135.0" text="TOTAL" />
+            <TableColumn minWidth="0.0" prefWidth="157.0" text="CANTIDAD" />
+            <TableColumn prefWidth="153.0" text="FECHA" />
+        </columns>
+      </TableView>
+      <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="57.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../imagenes/lupa.png" />
+         </image>
+      </ImageView>
+      <TextField layoutX="89.0" layoutY="24.0" prefHeight="25.0" prefWidth="149.0" />
+   </children>
+</AnchorPane>

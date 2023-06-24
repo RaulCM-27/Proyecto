@@ -16,7 +16,7 @@ import javafx.scene.control.Button;
  *
  * @author raul_correa
  */
-public class VistaVenderController implements Initializable {
+public class VistaProductosController implements Initializable {
 
     @FXML
     private Button btnGuardar;

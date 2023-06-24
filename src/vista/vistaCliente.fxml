@@ -35,26 +35,10 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txtID" layoutX="155.0" layoutY="14.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </TextField>
-            <TextField fx:id="txtTelefono" layoutX="155.0" layoutY="69.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </TextField>
-            <TextField fx:id="txtNombre" layoutX="523.0" layoutY="15.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </TextField>
-            <TextField fx:id="txtDireccion" layoutX="523.0" layoutY="70.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </TextField>
+            <TextField fx:id="txtID" layoutX="155.0" layoutY="14.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0" />
+            <TextField fx:id="txtTelefono" layoutX="155.0" layoutY="69.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0" />
+            <TextField fx:id="txtNombre" layoutX="523.0" layoutY="15.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0" />
+            <TextField fx:id="txtDireccion" layoutX="523.0" layoutY="70.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0" />
             <Button fx:id="btnGuardar" layoutX="247.0" layoutY="112.0" mnemonicParsing="false" onAction="#setAddCliente" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="GUARDAR" textFill="WHITE">
                <font>
                   <Font size="14.0" />

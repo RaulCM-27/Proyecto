@@ -10,14 +10,23 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 
 /**
  * FXML Controller class
  *
  * @author raul_correa
  */
-public class VistaVenderController implements Initializable {
+public class VistaProveedorController implements Initializable {
 
+    @FXML
+    private TextField txtID;
+    @FXML
+    private TextField txtID1;
+    @FXML
+    private TextField txtID11;
+    @FXML
+    private TextField txtID111;
     @FXML
     private Button btnGuardar;
     @FXML
@@ -34,7 +43,7 @@ public class VistaVenderController implements Initializable {
     }    
 
     @FXML
-    private void setAddVender(ActionEvent event) {
+    private void setAddCliente(ActionEvent event) {
     }
     
 }

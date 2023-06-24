@@ -56,6 +56,7 @@ public class VistaRegistroController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        //metodo para el combobox
         ArrayList<String> list = new ArrayList<>();
         Collections.addAll(list, new String[]{"admin", "vendedor"});
 
@@ -64,6 +65,7 @@ public class VistaRegistroController implements Initializable {
 
     @FXML
     private void eventKey(KeyEvent event) {
+        //evitar espacios al escribir
         String c = event.getCharacter();
 
         if (c.equalsIgnoreCase(" ")) {

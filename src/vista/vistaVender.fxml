@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="490.0" prefWidth="823.0" style="-fx-background-color: #08071B;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.VistaVenderController">
+   <children>
+      <Label layoutX="92.0" layoutY="16.0" text="Código:" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="79.0" layoutY="66.0" text="Cantidad:" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="272.0" layoutY="17.0" text="Marca:" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="270.0" layoutY="67.0" text="Precio:" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="495.0" layoutY="17.0" text="Modelo:" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="511.0" layoutY="66.0" text="Stock:" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="51.0" layoutY="415.0" text="ID-Cliente:" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="299.0" layoutY="415.0" text="Pago Efectivo:" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="563.0" layoutY="415.0" text="Total:" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="56.0" layoutY="455.0" text="Nombre:" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="335.0" layoutY="455.0" text="Cambio:" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="150.0" layoutY="14.0" opacity="0.88" prefHeight="25.0" prefWidth="89.0" />
+      <TextField layoutX="148.0" layoutY="64.0" opacity="0.88" prefHeight="25.0" prefWidth="89.0" />
+      <TextField layoutX="326.0" layoutY="14.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField layoutX="325.0" layoutY="64.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField layoutX="557.0" layoutY="14.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField layoutX="555.0" layoutY="64.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <Button id="anchorPane" fx:id="btnGuardar" layoutX="226.0" layoutY="100.0" mnemonicParsing="false" onAction="#setAddVender" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="AGREGAR" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="23.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagenes/verificar.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="btnLimpiar" layoutX="358.0" layoutY="100.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="LIMPIAR" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagenes/limpiar.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="btnEliminar" layoutX="487.0" layoutY="100.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="ELIMINAR" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagenes/eliminar%20(1).png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <TableView layoutX="14.0" layoutY="145.0" prefHeight="258.0" prefWidth="793.0">
+        <columns>
+          <TableColumn prefWidth="93.0" text="CÓDIGO" />
+          <TableColumn prefWidth="138.0" text="MARCA" />
+            <TableColumn prefWidth="163.0" text="MODELO" />
+            <TableColumn prefWidth="118.0" text="CANTIDAD" />
+            <TableColumn prefWidth="147.0" text="PRECIO" />
+            <TableColumn prefWidth="133.0" text="TOTAL" />
+        </columns>
+      </TableView>
+      <TextField layoutX="122.0" layoutY="413.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField layoutX="122.0" layoutY="453.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField layoutX="396.0" layoutY="413.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField layoutX="396.0" layoutY="453.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField layoutX="607.0" layoutY="413.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+   </children>
+</AnchorPane>

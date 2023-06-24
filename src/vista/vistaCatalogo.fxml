@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="490.0" prefWidth="823.0" style="-fx-background-color: #08071B;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.VistaCatalogoController">
    <children>
@@ -16,7 +18,7 @@
             <Image url="@../imagenes/redmi%20note%2012%20pro.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="166.0" fitWidth="166.0" layoutX="582.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="175.0" fitWidth="175.0" layoutX="573.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../imagenes/xiaomi%2012%20lite.png" />
          </image>
@@ -31,10 +33,40 @@
             <Image url="@../imagenes/A34.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="166.0" fitWidth="250.0" layoutX="541.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="166.0" fitWidth="263.0" layoutX="526.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../imagenes/SAMSUNG-GALAXY-S22-ULTRA-256-GB-blanco-1.png" />
          </image>
       </ImageView>
+      <Label layoutX="61.0" layoutY="195.0" text="XIAOMI - Redmi Note10s" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="322.0" layoutY="195.0" text="XIAOMI - Redmi Note 12 Pro" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="609.0" layoutY="195.0" text="XIAOMI - 12 Lite" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="66.0" layoutY="423.0" text="SAMSUNG - Galaxy A32" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="317.0" layoutY="423.0" text="SAMSUNG - Galaxy A34" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="571.0" layoutY="423.0" text="SAMSUNG - Galaxy S22 Ultra" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
