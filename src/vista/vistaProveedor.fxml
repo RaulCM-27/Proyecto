@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="490.0" prefWidth="823.0" style="-fx-background-color: #08071B;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="controlador.VistaProveedorController">
+<AnchorPane id="AnchorPane" prefHeight="490.0" prefWidth="823.0" style="-fx-background-color: #08071B;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.VistaProveedorController">
    <children>
       <Label layoutX="157.0" layoutY="27.0" text="NIC:" textFill="WHITE">
          <font>
@@ -33,11 +32,11 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txtID" layoutX="192.0" layoutY="25.0" opacity="0.88" prefHeight="25.0" prefWidth="189.0" />
-      <TextField fx:id="txtID1" layoutX="192.0" layoutY="72.0" opacity="0.88" prefHeight="25.0" prefWidth="189.0" />
-      <TextField fx:id="txtID11" layoutX="513.0" layoutY="73.0" opacity="0.88" prefHeight="25.0" prefWidth="189.0" />
-      <TextField fx:id="txtID111" layoutX="513.0" layoutY="25.0" opacity="0.88" prefHeight="25.0" prefWidth="189.0" />
-      <Button fx:id="btnGuardar" layoutX="244.0" layoutY="106.0" mnemonicParsing="false" onAction="#setAddCliente" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="GUARDAR" textFill="WHITE">
+      <TextField fx:id="txtNIC" layoutX="192.0" layoutY="25.0" opacity="0.88" prefHeight="25.0" prefWidth="189.0" />
+      <TextField fx:id="txtNombre" layoutX="192.0" layoutY="72.0" opacity="0.88" prefHeight="25.0" prefWidth="189.0" />
+      <TextField fx:id="txtTelefono" layoutX="513.0" layoutY="73.0" opacity="0.88" prefHeight="25.0" prefWidth="189.0" />
+      <TextField fx:id="txtDireccion" layoutX="513.0" layoutY="25.0" opacity="0.88" prefHeight="25.0" prefWidth="189.0" />
+      <Button fx:id="btnGuardar" layoutX="244.0" layoutY="106.0" mnemonicParsing="false" onAction="#setAddProveedor" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="GUARDAR" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
@@ -73,12 +72,12 @@
             </ImageView>
          </graphic>
       </Button>
-      <TableView layoutX="14.0" layoutY="154.0" prefHeight="325.0" prefWidth="794.0">
+      <TableView fx:id="tblProveedor" layoutX="14.0" layoutY="154.0" prefHeight="325.0" prefWidth="794.0">
         <columns>
-          <TableColumn prefWidth="134.0" text="NIC" />
-          <TableColumn prefWidth="230.0" text="NOMBRE" />
-            <TableColumn prefWidth="247.0" text="DIRECCIÓN" />
-            <TableColumn prefWidth="182.0" text="TELÉFONO" />
+          <TableColumn fx:id="colNIC" prefWidth="134.0" text="NIC" />
+          <TableColumn fx:id="colNombre" prefWidth="230.0" text="NOMBRE" />
+            <TableColumn fx:id="colDireccion" prefWidth="247.0" text="DIRECCIÓN" />
+            <TableColumn fx:id="colTelefono" prefWidth="182.0" text="TELÉFONO" />
         </columns>
       </TableView>
    </children>

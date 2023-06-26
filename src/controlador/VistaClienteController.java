@@ -8,7 +8,6 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import conexion.Conexion;
 import java.net.URL;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -36,6 +35,8 @@ public class VistaClienteController implements Initializable {
     @FXML
     private Button btnEliminar;
     @FXML
+    private TextField txtDNI;
+    @FXML
     private TextField txtTelefono;
     @FXML
     private TextField txtNombre;
@@ -51,8 +52,6 @@ public class VistaClienteController implements Initializable {
     private TableColumn colTelefono;
     @FXML
     private TableColumn colDireccion;
-    @FXML
-    private TextField txtDNI;
 
     Cliente cab;
 

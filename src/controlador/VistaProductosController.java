@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 
 /**
  * FXML Controller class
@@ -19,11 +20,27 @@ import javafx.scene.control.Button;
 public class VistaProductosController implements Initializable {
 
     @FXML
-    private Button btnGuardar;
-    @FXML
     private Button btnLimpiar;
     @FXML
     private Button btnEliminar;
+    @FXML
+    private TextField txtMarca;
+    @FXML
+    private TextField txtCodigo;
+    @FXML
+    private TextField txtRam;
+    @FXML
+    private TextField txtAlmacenamiento;
+    @FXML
+    private TextField txtModelo;
+    @FXML
+    private TextField txtPrecioCompra;
+    @FXML
+    private TextField txtPrecioVenta;
+    @FXML
+    private TextField txtProveedor;
+    @FXML
+    private Button btnAgregar;
 
     /**
      * Initializes the controller class.
@@ -34,7 +51,7 @@ public class VistaProductosController implements Initializable {
     }    
 
     @FXML
-    private void setAddVender(ActionEvent event) {
+    private void setAddAgregar(ActionEvent event) {
     }
     
 }

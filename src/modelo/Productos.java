@@ -6,10 +6,10 @@ package modelo;
  * @author raul_correa
  */
 public class Productos {
+    int id;
     int codigo;
     String marca;
     String modelo;
-    String procesador;
     String ram;
     String almacenamiento;
     float precioCompra;
@@ -17,17 +17,37 @@ public class Productos {
     String proveedor;
     Productos sig;
 
-    public Productos(int codigo, String marca, String modelo, String procesador, String ram, String almacenamiento, float precioCompra, float precioVenta, String proveedor) {
+    public Productos(int codigo, String marca, String modelo, String ram, String almacenamiento, float precioCompra, float precioVenta, String proveedor) {
         this.codigo = codigo;
         this.marca = marca;
         this.modelo = modelo;
-        this.procesador = procesador;
         this.ram = ram;
         this.almacenamiento = almacenamiento;
         this.precioCompra = precioCompra;
         this.precioVenta = precioVenta;
         this.proveedor = proveedor;
         sig = null;
+    }
+
+    public Productos(int id, int codigo, String marca, String modelo, String procesador, String ram, String almacenamiento, float precioCompra, float precioVenta, String proveedor) {
+        this.id = id;
+        this.codigo = codigo;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.ram = ram;
+        this.almacenamiento = almacenamiento;
+        this.precioCompra = precioCompra;
+        this.precioVenta = precioVenta;
+        this.proveedor = proveedor;
+        sig = null;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getCodigo() {
@@ -52,14 +72,6 @@ public class Productos {
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
-    }
-
-    public String getProcesador() {
-        return procesador;
-    }
-
-    public void setProcesador(String procesador) {
-        this.procesador = procesador;
     }
 
     public String getRam() {

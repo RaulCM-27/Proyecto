@@ -6,13 +6,14 @@ package modelo;
  * @author raul_correa
  */
 public class Cliente {
+    int id;
     int dni;
     String nombre;
     int telefono;
     String direccion;
     Cliente sig;
 
-    public Cliente(int dni, String nombre, int telefono, String direccion) {       
+    public Cliente(int dni, String nombre, int telefono, String direccion) {     
         this.dni = dni;
         this.nombre = nombre;
         this.telefono = telefono;
@@ -20,6 +21,15 @@ public class Cliente {
         sig = null;
     }
 
+    public Cliente(int id, int dni, String nombre, int telefono, String direccion) {
+        this.id = id;
+        this.dni = dni;
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.direccion = direccion;
+    }
+
+    
     public Cliente() {
     }
 
@@ -62,5 +72,13 @@ public class Cliente {
     public void setSig(Cliente sig) {
         this.sig = sig;
     }   
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     
 }
