@@ -6,26 +6,29 @@ package modelo;
  * @author raul_correa
  */
 public class Cliente {
-    int ID;
+    int dni;
     String nombre;
     int telefono;
     String direccion;
     Cliente sig;
 
-    public Cliente(int ID, String nombre, int telefono, String direccion) {
-        this.ID = ID;
+    public Cliente(int dni, String nombre, int telefono, String direccion) {       
+        this.dni = dni;
         this.nombre = nombre;
         this.telefono = telefono;
         this.direccion = direccion;
         sig = null;
     }
 
-    public int getID() {
-        return ID;
+    public Cliente() {
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public int getDni() {
+        return dni;
+    }
+
+    public void setDni(int dni) {
+        this.dni = dni;
     }
 
     public String getNombre() {

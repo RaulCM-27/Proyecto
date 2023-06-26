@@ -15,7 +15,7 @@
    <children>
       <Pane prefHeight="173.0" prefWidth="823.0">
          <children>
-            <Label layoutX="52.0" layoutY="14.0" text="Código:" textFill="WHITE">
+            <Label layoutX="48.0" layoutY="15.0" text="Código:" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
@@ -55,15 +55,15 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField layoutX="186.0" layoutY="36.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
-            <TextField layoutX="52.0" layoutY="37.0" opacity="0.88" prefHeight="25.0" prefWidth="90.0" />
-            <TextField layoutX="48.0" layoutY="97.0" opacity="0.88" prefHeight="25.0" prefWidth="94.0" />
-            <TextField layoutX="188.0" layoutY="97.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
-            <TextField layoutX="399.0" layoutY="35.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
-            <TextField layoutX="604.0" layoutY="35.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
-            <TextField layoutX="604.0" layoutY="95.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
-            <TextField layoutX="399.0" layoutY="97.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
-            <Button id="anchorPane" fx:id="btnGuardar" layoutX="215.0" layoutY="132.0" mnemonicParsing="false" onAction="#setAddVender" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="AGREGAR" textFill="WHITE">
+            <TextField fx:id="txtMarca" layoutX="186.0" layoutY="36.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
+            <TextField fx:id="txtCodigo" layoutX="48.0" layoutY="37.0" opacity="0.88" prefHeight="25.0" prefWidth="94.0" />
+            <TextField fx:id="txtRam" layoutX="48.0" layoutY="97.0" opacity="0.88" prefHeight="25.0" prefWidth="94.0" />
+            <TextField fx:id="txtAlmacenamiento" layoutX="188.0" layoutY="97.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
+            <TextField fx:id="txtModelo" layoutX="399.0" layoutY="35.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
+            <TextField fx:id="txtPrecioCompra" layoutX="604.0" layoutY="35.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
+            <TextField fx:id="txtPrecioVenta" layoutX="604.0" layoutY="95.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
+            <TextField fx:id="txtProveedor" layoutX="399.0" layoutY="97.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
+            <Button id="anchorPane" fx:id="btnAgregar" layoutX="215.0" layoutY="132.0" mnemonicParsing="false" onAction="#setAddAgregar" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="AGREGAR" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>

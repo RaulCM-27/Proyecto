@@ -15,7 +15,7 @@
    <children>
       <Pane prefHeight="151.0" prefWidth="823.0" style="-fx-background-color: #08071B;">
          <children>
-            <Label layoutX="128.0" layoutY="20.0" text="ID:" textFill="WHITE">
+            <Label layoutX="120.0" layoutY="20.0" text="DNI:" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
@@ -35,7 +35,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txtID" layoutX="155.0" layoutY="14.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0" />
+            <TextField fx:id="txtDNI" layoutX="155.0" layoutY="14.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0" />
             <TextField fx:id="txtTelefono" layoutX="155.0" layoutY="69.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0" />
             <TextField fx:id="txtNombre" layoutX="523.0" layoutY="15.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0" />
             <TextField fx:id="txtDireccion" layoutX="523.0" layoutY="70.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0" />
@@ -79,7 +79,7 @@
       </Pane>
       <TableView fx:id="tblCliente" layoutX="13.0" layoutY="158.0" prefHeight="321.0" prefWidth="794.0">
         <columns>
-          <TableColumn fx:id="colID" prefWidth="139.0" text="ID" />
+          <TableColumn fx:id="colID" prefWidth="139.0" text="DNI" />
           <TableColumn fx:id="colNombre" prefWidth="287.0" text="NOMBRE" />
             <TableColumn fx:id="colTelefono" minWidth="0.0" prefWidth="198.0" text="TELEFONO" />
             <TableColumn fx:id="colDireccion" prefWidth="170.0" text="DIRECCION" />
