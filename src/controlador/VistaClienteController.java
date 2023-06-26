@@ -7,7 +7,6 @@ package controlador;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import conexion.Conexion;
-import conexion.conexClientes;
 import java.net.URL;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -96,11 +95,11 @@ public class VistaClienteController implements Initializable {
             if (cab == null) {
                 cab = cliente;
             } else {
-                Cliente ultimoNodo = cab;
-                while (ultimoNodo.getSig() != null) {
-                    ultimoNodo = ultimoNodo.getSig();
+                Cliente ultimo = cab;
+                while (ultimo.getSig() != null) {
+                    ultimo = ultimo.getSig();
                 }
-                ultimoNodo.setSig(cliente);
+                ultimo.setSig(cliente);
             }
             tblCliente.getItems().add(cliente);
 
