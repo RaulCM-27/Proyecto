@@ -14,10 +14,10 @@ public class Productos {
     String almacenamiento;
     float precioCompra;
     float precioVenta;
-    String proveedor;
+    String idproveedor;
     Productos sig;
 
-    public Productos(int codigo, String marca, String modelo, String ram, String almacenamiento, float precioCompra, float precioVenta, String proveedor) {
+    public Productos(int codigo, String marca, String modelo, String ram, String almacenamiento, float precioCompra, float precioVenta, String idproveedor) {  
         this.codigo = codigo;
         this.marca = marca;
         this.modelo = modelo;
@@ -25,21 +25,8 @@ public class Productos {
         this.almacenamiento = almacenamiento;
         this.precioCompra = precioCompra;
         this.precioVenta = precioVenta;
-        this.proveedor = proveedor;
-        sig = null;
-    }
-
-    public Productos(int id, int codigo, String marca, String modelo, String procesador, String ram, String almacenamiento, float precioCompra, float precioVenta, String proveedor) {
-        this.id = id;
-        this.codigo = codigo;
-        this.marca = marca;
-        this.modelo = modelo;
-        this.ram = ram;
-        this.almacenamiento = almacenamiento;
-        this.precioCompra = precioCompra;
-        this.precioVenta = precioVenta;
-        this.proveedor = proveedor;
-        sig = null;
+        this.idproveedor = idproveedor;
+        sig=null;
     }
 
     public int getId() {
@@ -106,12 +93,12 @@ public class Productos {
         this.precioVenta = precioVenta;
     }
 
-    public String getProveedor() {
-        return proveedor;
+    public String getIdproveedor() {
+        return idproveedor;
     }
 
-    public void setProveedor(String proveedor) {
-        this.proveedor = proveedor;
+    public void setIdproveedor(String idproveedor) {
+        this.idproveedor = idproveedor;
     }
 
     public Productos getSig() {
@@ -121,5 +108,6 @@ public class Productos {
     public void setSig(Productos sig) {
         this.sig = sig;
     }
+
     
 }

@@ -89,7 +89,7 @@ public class VistaClienteController implements Initializable {
                 return;
             }
 
-            // Agregar el cliente a la lista local
+            // Agregar el cliente a la lista 
             Cliente cliente = new Cliente(dni, nombre, telefono, direccion);
             if (cab == null) {
                 cab = cliente;
@@ -103,11 +103,17 @@ public class VistaClienteController implements Initializable {
             tblCliente.getItems().add(cliente);
 
             // Insertar datos en la base de datos
-            String consulta = "INSERT into clientes(dni, nombre, telefono, direccion) values ('" + dni + "', '" + nombre + "', '" + telefono + "', '" + direccion + "')";
+            String consulta = "INSERT INTO clientes(dni, nombre, telefono, direccion) VALUES (?, ?, ?, ?)";
             PreparedStatement ps = (PreparedStatement) cn.prepareStatement(consulta);
+            ps.setInt(1, dni);
+            ps.setString(2, nombre);
+            ps.setInt(3, telefono);
+            ps.setString(4, direccion);
             ps.executeUpdate();
-            limpiar();
+            ps.close();
+            cn.close();
 
+            limpiar();
 
         } catch (NumberFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -126,7 +132,7 @@ public class VistaClienteController implements Initializable {
         txtTelefono.setText("");
         txtDireccion.setText("");
     }
-    
+
     public boolean getBuscarDNI(int dni) {
         if (cab == null) {
             return false;

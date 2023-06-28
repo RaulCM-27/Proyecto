@@ -6,6 +6,7 @@ package modelo;
  * @author raul_correa
  */
 public class Proveedor {
+    int id;
     int NIC;
     String nombre;
     String direccion;
@@ -19,6 +20,23 @@ public class Proveedor {
         this.telefono = telefono;
         sig = null;
     }
+
+    public Proveedor(int id, int NIC, String nombre, String direccion, String telefono, Proveedor sig) {
+        this.id = id;
+        this.NIC = NIC;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.sig = sig;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }    
 
     public int getNIC() {
         return NIC;

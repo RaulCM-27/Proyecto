@@ -4,7 +4,13 @@
  */
 package controlador;
 
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import conexion.Conexion;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -50,6 +56,9 @@ public class VistaProveedorController implements Initializable {
     private TableColumn colTelefono;
 
     Proveedor cab;
+
+    Conexion con = new Conexion();
+    Connection cn = con.ConectarseBD();
     /**
      * Initializes the controller class.
      */
@@ -59,18 +68,18 @@ public class VistaProveedorController implements Initializable {
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
         colDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
-    }    
+    }
 
     @FXML
-    private void setAddProveedor(ActionEvent event) {
-        
-        try{
-            int nic = Integer.parseInt(txtNIC.getText());
+    private void setAddProveedor(ActionEvent event) throws SQLException {
+
+        try {
+            int NIC = Integer.parseInt(txtNIC.getText());
             String nombre = txtNombre.getText();
             String telefono = txtTelefono.getText();
             String direccion = txtDireccion.getText();
-            
-            if (getBuscarNIC(nic)) {
+
+            if (getBuscarNIC(NIC)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("NIC Duplicado");
@@ -80,9 +89,9 @@ public class VistaProveedorController implements Initializable {
                 txtNIC.requestFocus();
                 return;
             }
-            
-            Proveedor proveedor = new Proveedor(nic, nombre, telefono, direccion);
-            
+
+            Proveedor proveedor = new Proveedor(NIC, nombre, direccion, telefono);
+
             if (cab == null) {
                 cab = proveedor;
             } else {
@@ -94,10 +103,20 @@ public class VistaProveedorController implements Initializable {
             }
             tblProveedor.getItems().add(proveedor);
             
-        }catch(Exception e){
+            String consulta = "INSERT into proveedor(NIC, nombre, direccion, telefono) values ('" + NIC + "', '" + nombre + "', '" + direccion + "', '" + telefono + "')";
+            PreparedStatement ps = (PreparedStatement) cn.prepareStatement(consulta);
+            ps.executeUpdate();
+            limpiar();
+
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Valor no válido");
+            alert.setContentText("Error!!");
+            alert.showAndWait();
         }
     }
-    
+
     public boolean getBuscarNIC(int nic) {
         if (cab == null) {
             return false;
@@ -113,4 +132,12 @@ public class VistaProveedorController implements Initializable {
             return false;
         }
     }
+
+    void limpiar() {
+        txtNIC.setText("");
+        txtNombre.setText("");
+        txtTelefono.setText("");
+        txtDireccion.setText("");
+    }
+    
 }

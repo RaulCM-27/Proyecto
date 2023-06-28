@@ -149,6 +149,7 @@ public class VistaRegistroController implements Initializable {
         txtNombre.setText("");
         txtCUsuario.setText("");
         txtCContraseña.setText("");
+        cbTipoUsuario.getSelectionModel().clearSelection();
     }
     
     
