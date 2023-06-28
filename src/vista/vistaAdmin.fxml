@@ -73,7 +73,7 @@
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button layoutX="7.0" layoutY="418.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="151.0" style="-fx-background-color: #2848BA;" text="USUARIOS" textFill="WHITE">
+                  <Button fx:id="btnUsuario" layoutX="7.0" layoutY="418.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="151.0" style="-fx-background-color: #2848BA;" text="USUARIOS" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>

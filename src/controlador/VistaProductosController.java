@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,6 +25,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import modelo.Productos;
+import modelo.Proveedor;
 
 /**
  * FXML Controller class
@@ -51,7 +53,7 @@ public class VistaProductosController implements Initializable {
     @FXML
     private TextField txtPrecioVenta;
     @FXML
-    private ComboBox<String> txtProveedor;
+    private ComboBox<Proveedor> txtProveedor;
     @FXML
     private Button btnAgregar;
     @FXML
@@ -91,8 +93,19 @@ public class VistaProductosController implements Initializable {
         colAlmacenamiento.setCellValueFactory(new PropertyValueFactory<>("Almacenamiento"));
         colCantidad.setCellValueFactory(new PropertyValueFactory<>("Cantidad"));
         colPrecioVenta.setCellValueFactory(new PropertyValueFactory<>("Precio Venta"));
+        
+        initCombo();
     }
 
+    
+    public void initCombo(){
+        Proveedor p = new Proveedor();
+        
+        ObservableList<Proveedor> obsProveedor = p.getProveedores();
+        
+        this.txtProveedor.setItems(obsProveedor);
+    }
+    
     @FXML
     private void setAddAgregar(ActionEvent event) {
         try {
@@ -103,7 +116,7 @@ public class VistaProductosController implements Initializable {
             String almacenamiento = txtAlmacenamiento.getText();
             float precioVenta = Float.parseFloat(txtPrecioVenta.getText());
             float precioCompra = Float.parseFloat(txtPrecioCompra.getText());
-            String proveedor = txtProveedor.getSelectionModel().getSelectedItem();
+            
 
             if (getBuscarCod(codigo)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -117,7 +130,7 @@ public class VistaProductosController implements Initializable {
             }
 
             // Agregar productos a la lista 
-            Productos pro = new Productos(codigo, marca, modelo, ram, almacenamiento, precioVenta, precioCompra, proveedor);
+            Productos pro = new Productos(codigo, marca, modelo, ram, almacenamiento, precioVenta, precioCompra);
             if (cab == null) {
                 cab = pro;
             } else {
@@ -130,10 +143,18 @@ public class VistaProductosController implements Initializable {
             tblProductos.getItems().add(pro);
 
             // Insertar datos en la base de datos
-            String consulta = "INSERT into Productos(codigo, marca, modelo, ram, almacenamiento, proveedor, precioCompra, precioVenta) values "
-                    + "('" + codigo + "', '" + marca + "', '" + modelo + "', '" + ram + "', '" + proveedor + "', '" + precioCompra + "', '" + precioVenta + "' )";
-            PreparedStatement ps = (PreparedStatement) cn.prepareStatement(consulta);
+            String consulta = "INSERT INTO productos(codigo, marca, modelo, ram, almacenamiento, precioVenta, precioCompra, idproveedor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            com.mysql.jdbc.PreparedStatement ps = (com.mysql.jdbc.PreparedStatement) cn.prepareStatement(consulta);
+            ps.setInt(1, codigo);
+            ps.setString(2, marca);
+            ps.setString(3, modelo);
+            ps.setString(4, ram);
+            ps.setString(5, almacenamiento);
+            ps.setFloat(6, precioVenta);
+            ps.setFloat(7, precioCompra);
             ps.executeUpdate();
+            ps.close();
+            cn.close();
             limpiar();
 
         } catch (NumberFormatException e) {
@@ -142,7 +163,6 @@ public class VistaProductosController implements Initializable {
             alert.setHeaderText("Valor no válido");
             alert.setContentText("DATOS NO VALIDOS!!");
             alert.showAndWait();
-
         } catch (SQLException e) {
 
         }
@@ -175,23 +195,6 @@ public class VistaProductosController implements Initializable {
         }
     }
 
-    public void llenarProveedor() {
-
-        String url = "jdbc:mysql://localhost:3306/login_java_mysql";
-        String usuario = "";
-        String contraseña = "";
-
-        try ( Connection connection = (Connection) DriverManager.getConnection(url, usuario, contraseña);  
-            Statement statement = connection.createStatement();  
-            ResultSet resultSet = statement.executeQuery("SELECT nombre FROM proveedores")) {
-
-            while (resultSet.next()) {
-                String nombreProveedor = resultSet.getString("nombre");
-                txtProveedor.getItems().add(nombreProveedor);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+    
 
 }

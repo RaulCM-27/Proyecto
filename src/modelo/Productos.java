@@ -6,7 +6,6 @@ package modelo;
  * @author raul_correa
  */
 public class Productos {
-    int id;
     int codigo;
     String marca;
     String modelo;
@@ -17,7 +16,18 @@ public class Productos {
     String idproveedor;
     Productos sig;
 
-    public Productos(int codigo, String marca, String modelo, String ram, String almacenamiento, float precioCompra, float precioVenta, String idproveedor) {  
+    public Productos(int codigo, String marca, String modelo, String ram, String almacenamiento, float precioCompra, float precioVenta) {  
+        this.codigo = codigo;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.ram = ram;
+        this.almacenamiento = almacenamiento;
+        this.precioCompra = precioCompra;
+        this.precioVenta = precioVenta;
+        sig=null;
+    }
+
+    public Productos(int codigo, String marca, String modelo, String ram, String almacenamiento, float precioCompra, float precioVenta, String idproveedor) {
         this.codigo = codigo;
         this.marca = marca;
         this.modelo = modelo;
@@ -26,16 +36,9 @@ public class Productos {
         this.precioCompra = precioCompra;
         this.precioVenta = precioVenta;
         this.idproveedor = idproveedor;
-        sig=null;
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    
+    
 
     public int getCodigo() {
         return codigo;

@@ -1,49 +1,41 @@
 
 package modelo;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import conexiondb.ConexionMySQL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author raul_correa
  */
 public class Proveedor {
-    int id;
-    int NIC;
+    int nic;
     String nombre;
     String direccion;
     String telefono;
     Proveedor sig;
 
-    public Proveedor(int NIC, String nombre, String direccion, String telefono) {
-        this.NIC = NIC;
+    public Proveedor(int nic, String nombre, String direccion, String telefono) {
+        this.nic = nic;
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
         sig = null;
     }
 
-    public Proveedor(int id, int NIC, String nombre, String direccion, String telefono, Proveedor sig) {
-        this.id = id;
-        this.NIC = NIC;
-        this.nombre = nombre;
-        this.direccion = direccion;
-        this.telefono = telefono;
-        this.sig = sig;
+    public Proveedor() {
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }    
 
     public int getNIC() {
-        return NIC;
+        return nic;
     }
 
     public void setNIC(int NIC) {
-        this.NIC = NIC;
+        this.nic = NIC;
     }
 
     public String getNombre() {
@@ -78,4 +70,54 @@ public class Proveedor {
         this.sig = sig;
     }
    
+    @Override
+    public String toString(){
+        return nombre;
+    }
+    
+    public ObservableList<Proveedor> getProveedores(){
+        
+        ObservableList<Proveedor> obs = FXCollections.observableArrayList();
+        try {
+                       
+            ConexionMySQL conexion = new ConexionMySQL("localhost", "login_java_mysql","root","");
+            
+            conexion.ejecutarConsulta("select * from proveedor");         
+            
+            ResultSet rs = conexion.getResultSet();
+            
+            while(rs.next()){
+                
+                int nic = rs.getInt("nic");
+                String nombre = rs.getString("nombre");
+                String direccion = rs.getString("direccion");
+                String telefono = rs.getString("telefono");
+                
+                Proveedor c = new Proveedor(nic, nombre, direccion, telefono);
+                
+                obs.add(c);
+            }
+            
+            conexion.cerrarConexion();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Proveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return obs;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
