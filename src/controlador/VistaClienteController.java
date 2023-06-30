@@ -8,8 +8,13 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import conexion.Conexion;
 import java.net.URL;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,6 +25,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import modelo.Cliente;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 
 /**
  * FXML Controller class
@@ -67,6 +73,8 @@ public class VistaClienteController implements Initializable {
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
         colDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+
+        llenarTabla("Clientes");
     }
 
     @FXML
@@ -89,7 +97,18 @@ public class VistaClienteController implements Initializable {
                 return;
             }
 
-            // Agregar el cliente a la lista 
+            if (existeDNIEnBD(dni)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("DNI Duplicado");
+                alert.setContentText("El DNI ingresado ya existe en la base de datos.");
+                alert.showAndWait();
+                txtDNI.setText("");
+                txtDNI.requestFocus();
+                return;
+            }
+
+            // Agregar el cliente a la lista
             Cliente cliente = new Cliente(dni, nombre, telefono, direccion);
             if (cab == null) {
                 cab = cliente;
@@ -104,14 +123,16 @@ public class VistaClienteController implements Initializable {
 
             // Insertar datos en la base de datos
             String consulta = "INSERT INTO clientes(dni, nombre, telefono, direccion) VALUES (?, ?, ?, ?)";
-            PreparedStatement ps = (PreparedStatement) cn.prepareStatement(consulta);
-            ps.setInt(1, dni);
-            ps.setString(2, nombre);
-            ps.setInt(3, telefono);
-            ps.setString(4, direccion);
-            ps.executeUpdate();
-            ps.close();
-            cn.close();
+            try ( Connection conn = con.ConectarseBD();  PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
+                ps.setInt(1, dni);
+                ps.setString(2, nombre);
+                ps.setInt(3, telefono);
+                ps.setString(4, direccion);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
 
             limpiar();
 
@@ -121,8 +142,6 @@ public class VistaClienteController implements Initializable {
             alert.setHeaderText("Valor no válido");
             alert.setContentText("El ID o teléfono no es un número válido");
             alert.showAndWait();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
@@ -146,6 +165,106 @@ public class VistaClienteController implements Initializable {
                 }
             }
             return false;
+        }
+    }
+
+    private boolean existeDNIEnBD(int dni) {
+        String consulta = "SELECT dni FROM clientes WHERE dni = ?";
+        try ( Connection conn = con.ConectarseBD();  PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
+            ps.setInt(1, dni);
+            try ( ResultSet rs = ps.executeQuery()) {
+                return rs.next(); // Retorna true si encuentra un DNI igual en la base de datos
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void llenarTabla(String tabla) {
+        String sql = "SELECT * FROM " + tabla;
+        Conexion con = new Conexion();
+        Connection cn = con.ConectarseBD();
+
+        colID.setCellValueFactory(new PropertyValueFactory<>("dni"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+        colDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            ObservableList<Cliente> clientes = FXCollections.observableArrayList();
+
+            while (rs.next()) {
+                int dni = rs.getInt("dni");
+                String nombre = rs.getString("nombre");
+                int telefono = rs.getInt("telefono");
+                String direccion = rs.getString("direccion");
+
+                Cliente cliente = new Cliente(dni, nombre, telefono, direccion);
+                clientes.add(cliente);
+            }
+
+            tblCliente.setItems(clientes);
+
+            rs.close();
+            st.close();
+            cn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void limpiarTxt(ActionEvent event) {
+        txtDNI.clear();
+        txtNombre.clear();
+        txtTelefono.clear();
+        txtDireccion.clear();
+    }
+
+    @FXML
+    private void eliminar(ActionEvent event) {
+
+        Cliente c = this.tblCliente.getSelectionModel().getSelectedItem();
+
+        if (c == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Debe selecionar un cliente");
+            alert.showAndWait();
+            return;
+        } else {
+
+            String sql = "DELETE FROM clientes WHERE dni = ?";
+            try (
+                     Connection cn = con.ConectarseBD();  PreparedStatement statement = (PreparedStatement) cn.prepareStatement(sql)) {
+                statement.setInt(1, c.getDni());
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                // Manejar la excepción de SQL
+                e.printStackTrace();
+                return;
+            }
+
+            tblCliente.getItems().remove(c);
+            tblCliente.refresh();
+        }
+    }
+
+    @FXML
+    private void seleccionar(MouseEvent event) {
+        Cliente c = this.tblCliente.getSelectionModel().getSelectedItem();
+
+        if (c != null) {
+            this.txtDNI.setText(c.getDni() + "");
+            this.txtNombre.setText(c.getNombre());
+            this.txtTelefono.setText(c.getTelefono() + "");
+            this.txtDireccion.setText(c.getDireccion());
+            this.txtDNI.setText(c.getDni() + "");
         }
     }
 }
