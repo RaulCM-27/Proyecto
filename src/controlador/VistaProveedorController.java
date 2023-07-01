@@ -19,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -38,8 +39,6 @@ public class VistaProveedorController implements Initializable {
     @FXML
     private Button btnLimpiar;
     @FXML
-    private Button btnEliminar;
-    @FXML
     private TextField txtNIC;
     @FXML
     private TextField txtNombre;
@@ -57,6 +56,8 @@ public class VistaProveedorController implements Initializable {
     private TableColumn colDireccion;
     @FXML
     private TableColumn colTelefono;
+    @FXML
+    private MenuItem contexMenu;
 
     Conexion con = new Conexion();
     Connection cn = con.ConectarseBD();
@@ -68,12 +69,12 @@ public class VistaProveedorController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        colNIC.setCellValueFactory(new PropertyValueFactory<>("NIC"));
+        colNIC.setCellValueFactory(new PropertyValueFactory<>("nic"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
         colDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
 
-        llenarTablaP("proveedor");
+        llenarTablaP("Proveedor");
     }
 
     @FXML
@@ -157,7 +158,7 @@ public class VistaProveedorController implements Initializable {
         } else {
             Proveedor p = cab;
             while (p != null) {
-                if (p.getNIC() == nic) {
+                if (p.getNic() == nic) {
                     return true;
                 } else {
                     p = p.getSig();
@@ -185,7 +186,7 @@ public class VistaProveedorController implements Initializable {
         Conexion con = new Conexion();
         Connection cn = con.ConectarseBD();
 
-        colNIC.setCellValueFactory(new PropertyValueFactory<>("dni"));
+        colNIC.setCellValueFactory(new PropertyValueFactory<>("nic"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
         colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
@@ -225,63 +226,67 @@ public class VistaProveedorController implements Initializable {
     }
 
     @FXML
-    private void eliminar(ActionEvent event) {
-        Proveedor p = tblProveedor.getSelectionModel().getSelectedItem();
-
-        if (p == null) {
-            // No se ha seleccionado ningún proveedor
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Debe seleccionar un proveedor");
-            alert.showAndWait();
-            return;
-        }
-
-        // Eliminar el proveedor de la lista enlazada
-        Proveedor actual = cab;
-        Proveedor anterior = null;
-
-        while (actual != null) {
-            if (actual.equals(p)) {
-                if (anterior == null) {
-                    // El proveedor a eliminar es el primero
-                    cab = actual.getSig();
-                } else {
-                    // El proveedor a eliminar está en el medio o al final
-                    anterior.setSig(actual.getSig());
-                }
-                break;
-            }
-            anterior = actual;
-            actual = actual.getSig();
-        }
-
-        String sql = "DELETE FROM proveedor WHERE nic = ?";
-        try (
-            Connection cn = con.ConectarseBD();  
-            PreparedStatement statement = (PreparedStatement) cn.prepareStatement(sql)) {
-            statement.setInt(1, p.getNIC());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            // Manejar la excepción de SQL
-            e.printStackTrace();
-            return;
-        }
-        // Actualizar la TableView
-        tblProveedor.refresh();
-    }
-
-    @FXML
     private void seleccionar(MouseEvent event) {
         Proveedor p = this.tblProveedor.getSelectionModel().getSelectedItem();
 
         if (p != null) {
-            this.txtNIC.setText(p.getNIC() + "");
+            this.txtNIC.setText(p.getNic() + "");
             this.txtNombre.setText(p.getNombre());
             this.txtDireccion.setText(p.getDireccion());
             this.txtTelefono.setText(p.getTelefono());
         }
     }
 
+    @FXML
+    private void eliminarProveedor(ActionEvent event) {
+        int nic = Integer.parseInt(txtNIC.getText());
+
+        Proveedor actual = cab;
+        Proveedor anterior = null;
+
+        while (actual != null) {
+            if (actual.getNic() == nic) {
+                if (anterior == null) {
+                    // El proveedor a eliminar es el primero
+                    cab = actual.getSig();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("ELIMINAR");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Proveedor eliminado, al inicio de la lista");
+                    alert.showAndWait();
+                    break;
+                } else {
+                    // El proveedor a eliminar está en el medio o al final
+                    anterior.setSig(actual.getSig());
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("ELIMINAR");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Proveedor eliminado");
+                    alert.showAndWait();
+                    break;
+                }
+            }
+
+            anterior = actual;
+            actual = actual.getSig();
+        }
+
+        String sql = "DELETE FROM proveedor WHERE nic = ?";
+        try (
+                 Connection cn = con.ConectarseBD();  PreparedStatement statement = (PreparedStatement) cn.prepareStatement(sql)) {
+            statement.setInt(1, nic);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            // Manejar la excepción de SQL
+            e.printStackTrace();
+            return;
+        }
+
+        // Actualizar la TableView
+        tblProveedor.getItems().removeIf(proveedor -> proveedor.getNic() == nic);
+        tblProveedor.refresh();
+    }
+
 }
+
+

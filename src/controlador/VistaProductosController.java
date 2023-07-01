@@ -121,7 +121,18 @@ public class VistaProductosController implements Initializable {
             if (getBuscarCod(codigo)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                alert.setHeaderText("DNI Duplicado");
+                alert.setHeaderText("Codigo Duplicado");
+                alert.setContentText("El Codigo ingresado ya existe en la lista.");
+                alert.showAndWait();
+                txtCodigo.setText("");
+                txtCodigo.requestFocus();
+                return;
+            }
+            
+            if (existeCODEnBD(codigo)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Codigo Duplicado");
                 alert.setContentText("El Codigo ingresado ya existe en la lista.");
                 alert.showAndWait();
                 txtCodigo.setText("");
@@ -143,18 +154,21 @@ public class VistaProductosController implements Initializable {
             tblProductos.getItems().add(pro);
 
             // Insertar datos en la base de datos
-            String consulta = "INSERT INTO productos(codigo, marca, modelo, ram, almacenamiento, precioVenta, precioCompra, idproveedor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            com.mysql.jdbc.PreparedStatement ps = (com.mysql.jdbc.PreparedStatement) cn.prepareStatement(consulta);
-            ps.setInt(1, codigo);
-            ps.setString(2, marca);
-            ps.setString(3, modelo);
-            ps.setString(4, ram);
-            ps.setString(5, almacenamiento);
-            ps.setFloat(6, precioVenta);
-            ps.setFloat(7, precioCompra);
-            ps.executeUpdate();
-            ps.close();
-            cn.close();
+            String consulta = "INSERT INTO productos(id, codigo, marca, modelo, ram, almacenamiento, precioVenta, precioCompra, idproveedor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            try (com.mysql.jdbc.PreparedStatement ps = (com.mysql.jdbc.PreparedStatement) cn.prepareStatement(consulta)) {
+                ps.setInt(1, codigo);
+                ps.setString(2, marca);
+                ps.setString(3, modelo);
+                ps.setString(4, ram);
+                ps.setString(5, almacenamiento);
+                ps.setFloat(6, precioVenta);
+                ps.setFloat(7, precioCompra);
+                ps.executeUpdate();
+            }catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
+           
             limpiar();
 
         } catch (NumberFormatException e) {
@@ -163,9 +177,7 @@ public class VistaProductosController implements Initializable {
             alert.setHeaderText("Valor no válido");
             alert.setContentText("DATOS NO VALIDOS!!");
             alert.showAndWait();
-        } catch (SQLException e) {
-
-        }
+        } 
     }
 
     void limpiar() {
@@ -195,6 +207,19 @@ public class VistaProductosController implements Initializable {
         }
     }
 
+    private boolean existeCODEnBD(int cod) {
+        String consulta = "SELECT codigo FROM productos WHERE codigo = ?";
+        try ( Connection conn = con.ConectarseBD();  
+            com.mysql.jdbc.PreparedStatement ps = (com.mysql.jdbc.PreparedStatement) conn.prepareStatement(consulta)) {
+            ps.setInt(1, cod);
+            try ( ResultSet rs = ps.executeQuery()) {
+                return rs.next(); 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     
 
 }

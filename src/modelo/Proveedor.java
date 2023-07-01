@@ -30,12 +30,12 @@ public class Proveedor {
     public Proveedor() {
     }
 
-    public int getNIC() {
+    public int getNic() {
         return nic;
     }
 
-    public void setNIC(int NIC) {
-        this.nic = NIC;
+    public void setNic(int nic) {
+        this.nic = nic;
     }
 
     public String getNombre() {

@@ -19,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import modelo.Cliente;
@@ -38,8 +39,6 @@ public class VistaClienteController implements Initializable {
     @FXML
     private Button btnLimpiar;
     @FXML
-    private Button btnEliminar;
-    @FXML
     private TextField txtDNI;
     @FXML
     private TextField txtTelefono;
@@ -57,12 +56,15 @@ public class VistaClienteController implements Initializable {
     private TableColumn colTelefono;
     @FXML
     private TableColumn colDireccion;
+    @FXML
+    private MenuItem contexMenu;
+
 
     Cliente cab;
 
     Conexion con = new Conexion();
     Connection cn = con.ConectarseBD();
-
+   
     /**
      * Initializes the controller class.
      */
@@ -227,37 +229,6 @@ public class VistaClienteController implements Initializable {
     }
 
     @FXML
-    private void eliminar(ActionEvent event) {
-
-        Cliente c = this.tblCliente.getSelectionModel().getSelectedItem();
-
-        if (c == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Debe selecionar un cliente");
-            alert.showAndWait();
-            return;
-        } else {
-
-            String sql = "DELETE FROM clientes WHERE dni = ?";
-            try (
-                Connection cn = con.ConectarseBD();  
-                PreparedStatement statement = (PreparedStatement) cn.prepareStatement(sql)) {
-                statement.setInt(1, c.getDni());
-                statement.executeUpdate();
-            } catch (SQLException e) {
-                // Manejar la excepción de SQL
-                e.printStackTrace();
-                return;
-            }
-
-            tblCliente.getItems().remove(c);
-            tblCliente.refresh();
-        }
-    }
-
-    @FXML
     private void seleccionar(MouseEvent event) {
         Cliente c = this.tblCliente.getSelectionModel().getSelectedItem();
 
@@ -267,5 +238,53 @@ public class VistaClienteController implements Initializable {
             this.txtTelefono.setText(c.getTelefono() + "");
             this.txtDireccion.setText(c.getDireccion());
         }
+    }
+
+    @FXML
+    private void eliminarCliente(ActionEvent event) {
+        
+        int dni = Integer.parseInt(txtDNI.getText());
+
+        Cliente actual = cab;
+        Cliente anterior = null;
+
+        while (actual != null) {
+            if (actual.getDni() == dni) {
+                if (anterior == null) {
+                    cab = actual.getSig();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("ELIMINAR");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Cliente eliminado, al inicio de la lista");
+                    alert.showAndWait();
+                    break;
+                } else {
+                    anterior.setSig(actual.getSig());
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("ELIMINAR");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Proveedor eliminado");
+                    alert.showAndWait();
+                    break;
+                }
+            }
+            anterior = actual;
+            actual = actual.getSig();
+        }
+
+        String sql = "DELETE FROM clientes WHERE dni = ?";
+        try (
+            Connection cn = con.ConectarseBD();  
+            PreparedStatement statement = (PreparedStatement) cn.prepareStatement(sql)) {
+            statement.setInt(1, dni);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        // Actualizar la TableView
+        tblCliente.getItems().removeIf(cliente -> cliente.getDni() == dni);
+        tblCliente.refresh();
     }
 }

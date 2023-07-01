@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -39,7 +41,7 @@
             <TextField fx:id="txtTelefono" layoutX="155.0" layoutY="69.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0" />
             <TextField fx:id="txtNombre" layoutX="523.0" layoutY="15.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0" />
             <TextField fx:id="txtDireccion" layoutX="523.0" layoutY="70.0" opacity="0.88" prefHeight="25.0" prefWidth="220.0" />
-            <Button fx:id="btnGuardar" layoutX="247.0" layoutY="112.0" mnemonicParsing="false" onAction="#setAddCliente" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="GUARDAR" textFill="WHITE">
+            <Button fx:id="btnGuardar" layoutX="299.0" layoutY="112.0" mnemonicParsing="false" onAction="#setAddCliente" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="GUARDAR" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
@@ -51,7 +53,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btnLimpiar" layoutX="375.0" layoutY="113.0" mnemonicParsing="false" onAction="#limpiarTxt" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="LIMPIAR" textFill="WHITE">
+            <Button fx:id="btnLimpiar" layoutX="428.0" layoutY="112.0" mnemonicParsing="false" onAction="#limpiarTxt" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="LIMPIAR" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
@@ -59,18 +61,6 @@
                   <ImageView fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../imagenes/limpiar.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="btnEliminar" layoutX="505.0" layoutY="113.0" mnemonicParsing="false" onAction="#eliminar" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="ELIMINAR" textFill="WHITE">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../imagenes/eliminar%20(1).png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -84,6 +74,13 @@
             <TableColumn fx:id="colTelefono" minWidth="0.0" prefWidth="198.0" text="TELEFONO" />
             <TableColumn fx:id="colDireccion" prefWidth="170.0" text="DIRECCION" />
         </columns>
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem fx:id="contexMenu" mnemonicParsing="false" onAction="#eliminarCliente" text="ELIMINAR CLIENTE" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
       </TableView>
    </children>
 </AnchorPane>
