@@ -287,4 +287,6 @@ public class VistaClienteController implements Initializable {
         tblCliente.getItems().removeIf(cliente -> cliente.getDni() == dni);
         tblCliente.refresh();
     }
+    
+    
 }

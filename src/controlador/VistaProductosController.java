@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,10 +21,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import modelo.Productos;
 import modelo.Proveedor;
 
@@ -59,8 +62,6 @@ public class VistaProductosController implements Initializable {
     @FXML
     private TableView<Productos> tblProductos;
     @FXML
-    private TableColumn colID;
-    @FXML
     private TableColumn colCodigo;
     @FXML
     private TableColumn colMarca;
@@ -79,46 +80,47 @@ public class VistaProductosController implements Initializable {
 
     Conexion con = new Conexion();
     Connection cn = con.ConectarseBD();
+    @FXML
+    private MenuItem contextMenu;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        colID.setCellValueFactory(new PropertyValueFactory<>("ID"));
-        colCodigo.setCellValueFactory(new PropertyValueFactory<>("Código"));
-        colMarca.setCellValueFactory(new PropertyValueFactory<>("Marca"));
+        colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+        colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
         colModelo.setCellValueFactory(new PropertyValueFactory<>("Modelo"));
-        colRam.setCellValueFactory(new PropertyValueFactory<>("Ram"));
-        colAlmacenamiento.setCellValueFactory(new PropertyValueFactory<>("Almacenamiento"));
-        colCantidad.setCellValueFactory(new PropertyValueFactory<>("Cantidad"));
-        colPrecioVenta.setCellValueFactory(new PropertyValueFactory<>("Precio Venta"));
-        
+        colRam.setCellValueFactory(new PropertyValueFactory<>("ram"));
+        colAlmacenamiento.setCellValueFactory(new PropertyValueFactory<>("almacenamiento"));
+        colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        colPrecioVenta.setCellValueFactory(new PropertyValueFactory<>("precioVenta"));
+
         initCombo();
+        llenarTabla("Productos");
     }
 
-    
-    public void initCombo(){
+    public void initCombo() {
         Proveedor p = new Proveedor();
-        
+
         ObservableList<Proveedor> obsProveedor = p.getProveedores();
-        
+
         this.txtProveedor.setItems(obsProveedor);
     }
-    
+
     @FXML
     private void setAddAgregar(ActionEvent event) {
         try {
-            int codigo = Integer.parseInt(txtCodigo.getText());
+            int cod = Integer.parseInt(txtCodigo.getText());
             String marca = txtMarca.getText();
             String modelo = txtModelo.getText();
             String ram = txtRam.getText();
             String almacenamiento = txtAlmacenamiento.getText();
             float precioVenta = Float.parseFloat(txtPrecioVenta.getText());
             float precioCompra = Float.parseFloat(txtPrecioCompra.getText());
-            
+            String proveedor = txtProveedor.getSelectionModel().getSelectedItem().toString();
 
-            if (getBuscarCod(codigo)) {
+            if (getBuscarCod(cod)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("Codigo Duplicado");
@@ -128,8 +130,8 @@ public class VistaProductosController implements Initializable {
                 txtCodigo.requestFocus();
                 return;
             }
-            
-            if (existeCODEnBD(codigo)) {
+
+            if (existeCODEnBD(cod)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("Codigo Duplicado");
@@ -141,7 +143,7 @@ public class VistaProductosController implements Initializable {
             }
 
             // Agregar productos a la lista 
-            Productos pro = new Productos(codigo, marca, modelo, ram, almacenamiento, precioVenta, precioCompra);
+            Productos pro = new Productos(cod, marca, modelo, ram, almacenamiento, precioVenta, precioCompra, proveedor);
             if (cab == null) {
                 cab = pro;
             } else {
@@ -154,21 +156,22 @@ public class VistaProductosController implements Initializable {
             tblProductos.getItems().add(pro);
 
             // Insertar datos en la base de datos
-            String consulta = "INSERT INTO productos(id, codigo, marca, modelo, ram, almacenamiento, precioVenta, precioCompra, idproveedor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            try (com.mysql.jdbc.PreparedStatement ps = (com.mysql.jdbc.PreparedStatement) cn.prepareStatement(consulta)) {
-                ps.setInt(1, codigo);
+            String consulta = "INSERT INTO productos (codigo, marca, modelo, ram, almacenamiento, precioCompra, precioVenta, idproveedor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            try ( Connection conn = con.ConectarseBD();  PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
+                ps.setInt(1, cod);
                 ps.setString(2, marca);
                 ps.setString(3, modelo);
                 ps.setString(4, ram);
                 ps.setString(5, almacenamiento);
-                ps.setFloat(6, precioVenta);
-                ps.setFloat(7, precioCompra);
+                ps.setFloat(6, precioCompra);
+                ps.setFloat(7, precioVenta);
+                ps.setString(8, proveedor);
                 ps.executeUpdate();
-            }catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
                 return;
             }
-           
+
             limpiar();
 
         } catch (NumberFormatException e) {
@@ -177,7 +180,7 @@ public class VistaProductosController implements Initializable {
             alert.setHeaderText("Valor no válido");
             alert.setContentText("DATOS NO VALIDOS!!");
             alert.showAndWait();
-        } 
+        }
     }
 
     void limpiar() {
@@ -209,17 +212,130 @@ public class VistaProductosController implements Initializable {
 
     private boolean existeCODEnBD(int cod) {
         String consulta = "SELECT codigo FROM productos WHERE codigo = ?";
-        try ( Connection conn = con.ConectarseBD();  
-            com.mysql.jdbc.PreparedStatement ps = (com.mysql.jdbc.PreparedStatement) conn.prepareStatement(consulta)) {
+        try ( Connection conn = con.ConectarseBD();  com.mysql.jdbc.PreparedStatement ps = (com.mysql.jdbc.PreparedStatement) conn.prepareStatement(consulta)) {
             ps.setInt(1, cod);
             try ( ResultSet rs = ps.executeQuery()) {
-                return rs.next(); 
+                return rs.next();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
-    
+
+    public void llenarTabla(String tabla) {
+        String sql = "SELECT * FROM " + tabla;
+        Conexion con = new Conexion();
+        Connection cn = con.ConectarseBD();
+
+        colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+        colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
+        colModelo.setCellValueFactory(new PropertyValueFactory<>("modelo"));
+        colRam.setCellValueFactory(new PropertyValueFactory<>("ram"));
+        colAlmacenamiento.setCellValueFactory(new PropertyValueFactory<>("almacenamiento"));
+        colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        colPrecioVenta.setCellValueFactory(new PropertyValueFactory<>("precioVenta"));
+
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            ObservableList<Productos> productos = FXCollections.observableArrayList();
+
+            while (rs.next()) {
+                int cod = rs.getInt("codigo");
+                String marca = rs.getString("marca");
+                String modelo = rs.getString("modelo");
+                String ram = rs.getString("ram");
+                String almacenamiento = rs.getString("almacenamiento");
+                int cantidad = rs.getInt("cantidad");
+                float precioVenta = rs.getFloat("precioVenta");
+
+                Productos producto = new Productos(cod, marca, modelo, ram, almacenamiento, cantidad, (int) precioVenta);
+                productos.add(producto);
+            }
+
+            tblProductos.setItems(productos);
+
+            rs.close();
+            st.close();
+            cn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void limpiartxt(ActionEvent event) {
+        txtCodigo.setText("");
+        txtMarca.setText("");
+        txtModelo.setText("");
+        txtRam.setText("");
+        txtAlmacenamiento.setText("");
+        txtProveedor.getSelectionModel().clearSelection();
+        txtPrecioCompra.setText("");
+        txtPrecioVenta.setText("");
+    }
+
+    @FXML
+    private void eliminarProducto(ActionEvent event) {
+        int cod = Integer.parseInt(txtCodigo.getText());
+
+        Productos actual = cab;
+        Productos anterior = null;
+
+        while (actual != null) {
+            if (actual.getCodigo() == cod) {
+                if (anterior == null) {
+                    cab = actual.getSig();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("ELIMINAR");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Cliente eliminado, al inicio de la lista");
+                    alert.showAndWait();
+                    break;
+                } else {
+                    anterior.setSig(actual.getSig());
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("ELIMINAR");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Proveedor eliminado");
+                    alert.showAndWait();
+                    break;
+                }
+            }
+            anterior = actual;
+            actual = actual.getSig();
+        }
+
+        String sql = "DELETE FROM productos WHERE codigo = ?";
+        try (
+                 Connection cn = con.ConectarseBD();  PreparedStatement statement = (PreparedStatement) cn.prepareStatement(sql)) {
+            statement.setInt(1, cod);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        // Actualizar la TableView
+        tblProductos.getItems().removeIf(producto -> producto.getCodigo() == cod);
+        tblProductos.refresh();
+    }
+
+    @FXML
+    private void seleccionar(MouseEvent event) {
+        Productos p = this.tblProductos.getSelectionModel().getSelectedItem();
+        
+        if (p != null) {
+            txtCodigo.setText(p.getCodigo() + "");
+            txtMarca.setText(p.getMarca());
+            txtModelo.setText(p.getModelo());
+            txtRam.setText(p.getRam());
+            txtAlmacenamiento.setText(p.getAlmacenamiento());
+            txtPrecioCompra.setText(p.getPrecioCompra() + "");
+            txtPrecioVenta.setText(p.getPrecioVenta() + "");
+        }
+    }
 
 }
