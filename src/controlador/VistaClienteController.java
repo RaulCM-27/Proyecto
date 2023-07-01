@@ -8,7 +8,6 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import conexion.Conexion;
 import java.net.URL;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -101,7 +100,7 @@ public class VistaClienteController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("DNI Duplicado");
-                alert.setContentText("El DNI ingresado ya existe en la base de datos.");
+                alert.setContentText("El DNI ingresado ya existe en la lista.");
                 alert.showAndWait();
                 txtDNI.setText("");
                 txtDNI.requestFocus();
@@ -123,7 +122,8 @@ public class VistaClienteController implements Initializable {
 
             // Insertar datos en la base de datos
             String consulta = "INSERT INTO clientes(dni, nombre, telefono, direccion) VALUES (?, ?, ?, ?)";
-            try ( Connection conn = con.ConectarseBD();  PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
+            try ( Connection conn = con.ConectarseBD();  
+                PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
                 ps.setInt(1, dni);
                 ps.setString(2, nombre);
                 ps.setInt(3, telefono);
@@ -140,7 +140,7 @@ public class VistaClienteController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Valor no válido");
-            alert.setContentText("El ID o teléfono no es un número válido");
+            alert.setContentText("El DNI o teléfono no es un número válido");
             alert.showAndWait();
         }
     }
@@ -170,7 +170,8 @@ public class VistaClienteController implements Initializable {
 
     private boolean existeDNIEnBD(int dni) {
         String consulta = "SELECT dni FROM clientes WHERE dni = ?";
-        try ( Connection conn = con.ConectarseBD();  PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
+        try ( Connection conn = con.ConectarseBD();  
+            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
             ps.setInt(1, dni);
             try ( ResultSet rs = ps.executeQuery()) {
                 return rs.next(); // Retorna true si encuentra un DNI igual en la base de datos
@@ -241,7 +242,8 @@ public class VistaClienteController implements Initializable {
 
             String sql = "DELETE FROM clientes WHERE dni = ?";
             try (
-                     Connection cn = con.ConectarseBD();  PreparedStatement statement = (PreparedStatement) cn.prepareStatement(sql)) {
+                Connection cn = con.ConectarseBD();  
+                PreparedStatement statement = (PreparedStatement) cn.prepareStatement(sql)) {
                 statement.setInt(1, c.getDni());
                 statement.executeUpdate();
             } catch (SQLException e) {
@@ -264,7 +266,6 @@ public class VistaClienteController implements Initializable {
             this.txtNombre.setText(c.getNombre());
             this.txtTelefono.setText(c.getTelefono() + "");
             this.txtDireccion.setText(c.getDireccion());
-            this.txtDNI.setText(c.getDni() + "");
         }
     }
 }

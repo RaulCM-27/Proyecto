@@ -48,7 +48,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="btnLimpiar" layoutX="372.0" layoutY="107.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="LIMPIAR" textFill="WHITE">
+      <Button fx:id="btnLimpiar" layoutX="372.0" layoutY="107.0" mnemonicParsing="false" onAction="#limpiartxt" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="LIMPIAR" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
@@ -60,7 +60,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="btnEliminar" layoutX="502.0" layoutY="107.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="ELIMINAR" textFill="WHITE">
+      <Button fx:id="btnEliminar" layoutX="502.0" layoutY="107.0" mnemonicParsing="false" onAction="#eliminar" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="ELIMINAR" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
@@ -72,7 +72,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <TableView fx:id="tblProveedor" layoutX="14.0" layoutY="154.0" prefHeight="325.0" prefWidth="794.0">
+      <TableView fx:id="tblProveedor" layoutX="14.0" layoutY="154.0" onMouseClicked="#seleccionar" prefHeight="325.0" prefWidth="794.0">
         <columns>
           <TableColumn fx:id="colNIC" prefWidth="134.0" text="NIC" />
           <TableColumn fx:id="colNombre" prefWidth="230.0" text="NOMBRE" />

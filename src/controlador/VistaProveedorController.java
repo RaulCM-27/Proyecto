@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import modelo.Proveedor;
 
 /**
@@ -55,10 +58,10 @@ public class VistaProveedorController implements Initializable {
     @FXML
     private TableColumn colTelefono;
 
-    Proveedor cab;
-
     Conexion con = new Conexion();
     Connection cn = con.ConectarseBD();
+
+    Proveedor cab;
 
     /**
      * Initializes the controller class.
@@ -69,12 +72,14 @@ public class VistaProveedorController implements Initializable {
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
         colDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+
+        llenarTablaP("proveedor");
     }
 
     @FXML
     private void setAddProveedor(ActionEvent event) {
 
-        try{
+        try {
             int nic = Integer.parseInt(txtNIC.getText());
             String nombre = txtNombre.getText();
             String direccion = txtDireccion.getText();
@@ -84,15 +89,26 @@ public class VistaProveedorController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("NIC Duplicado");
-                alert.setContentText("El DNI ingresado ya existe en la lista.");
+                alert.setContentText("El NIC ingresado ya existe en la lista.");
                 alert.showAndWait();
                 txtNIC.setText("");
                 txtNIC.requestFocus();
                 return;
             }
 
-            Proveedor proveedor = new Proveedor(nic, nombre, direccion, telefono);
+            if (existeNICenBD(nic)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("NIC Duplicado");
+                alert.setContentText("El NIC ingresado ya existe en la base de datos.");
+                alert.showAndWait();
+                txtNIC.setText("");
+                txtNIC.requestFocus();
+                return;
+            }
 
+            // Agregar el proveedor a la lista enlazada
+            Proveedor proveedor = new Proveedor(nic, nombre, direccion, telefono);
             if (cab == null) {
                 cab = proveedor;
             } else {
@@ -103,29 +119,36 @@ public class VistaProveedorController implements Initializable {
                 ultimo.setSig(proveedor);
             }
             tblProveedor.getItems().add(proveedor);
-            
+
+            // Insertar datos en la base de datos
             String consulta = "INSERT INTO proveedor(nic, nombre, direccion, telefono) VALUES (?, ?, ?, ?)";
-            PreparedStatement ps = (PreparedStatement) cn.prepareStatement(consulta);
-            ps.setInt(1, nic);
-            ps.setString(2, nombre);
-            ps.setString(3, direccion);
-            ps.setString(4, telefono);
-            ps.executeUpdate();
-            ps.close();
-            cn.close();
+            try ( Connection conn = con.ConectarseBD();  PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
+                ps.setInt(1, nic);
+                ps.setString(2, nombre);
+                ps.setString(3, direccion);
+                ps.setString(4, telefono);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
 
             limpiar();
-            
-        }catch(NumberFormatException e){
+
+        } catch (NumberFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
+            alert.setTitle(null);
             alert.setHeaderText("Valor no válido");
-            alert.setContentText("El ID o teléfono no es un número válido");
+            alert.setContentText("DATOS NO VÁLIDOS");
             alert.showAndWait();
-        }catch (SQLException e) {
-            e.printStackTrace();
         }
-            
+    }
+
+    void limpiar() {
+        txtNIC.setText("");
+        txtNombre.setText("");
+        txtTelefono.setText("");
+        txtDireccion.setText("");
     }
 
     public boolean getBuscarNIC(int nic) {
@@ -144,11 +167,121 @@ public class VistaProveedorController implements Initializable {
         }
     }
 
-    void limpiar() {
-        txtNIC.setText("");
-        txtNombre.setText("");
-        txtTelefono.setText("");
-        txtDireccion.setText("");
+    private boolean existeNICenBD(int nic) {
+        String consulta = "SELECT nic FROM proveedor WHERE nic = ?";
+        try ( Connection conn = con.ConectarseBD();  PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
+            ps.setInt(1, nic);
+            try ( ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void llenarTablaP(String tablaP) {
+        String sql = "SELECT * FROM " + tablaP;
+        Conexion con = new Conexion();
+        Connection cn = con.ConectarseBD();
+
+        colNIC.setCellValueFactory(new PropertyValueFactory<>("dni"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+        colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            ObservableList<Proveedor> proveedores = FXCollections.observableArrayList();
+
+            while (rs.next()) {
+                int nic = rs.getInt("nic");
+                String nombre = rs.getString("nombre");
+                String direccion = rs.getString("direccion");
+                String telefono = rs.getString("telefono");
+
+                Proveedor proveedor = new Proveedor(nic, nombre, direccion, telefono);
+                proveedores.add(proveedor);
+            }
+
+            tblProveedor.setItems(proveedores);
+
+            rs.close();
+            st.close();
+            cn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void limpiartxt(ActionEvent event) {
+        txtNIC.clear();
+        txtNombre.clear();
+        txtDireccion.clear();
+        txtTelefono.clear();
+    }
+
+    @FXML
+    private void eliminar(ActionEvent event) {
+        Proveedor p = tblProveedor.getSelectionModel().getSelectedItem();
+
+        if (p == null) {
+            // No se ha seleccionado ningún proveedor
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Debe seleccionar un proveedor");
+            alert.showAndWait();
+            return;
+        }
+
+        // Eliminar el proveedor de la lista enlazada
+        Proveedor actual = cab;
+        Proveedor anterior = null;
+
+        while (actual != null) {
+            if (actual.equals(p)) {
+                if (anterior == null) {
+                    // El proveedor a eliminar es el primero
+                    cab = actual.getSig();
+                } else {
+                    // El proveedor a eliminar está en el medio o al final
+                    anterior.setSig(actual.getSig());
+                }
+                break;
+            }
+            anterior = actual;
+            actual = actual.getSig();
+        }
+
+        String sql = "DELETE FROM proveedor WHERE nic = ?";
+        try (
+            Connection cn = con.ConectarseBD();  
+            PreparedStatement statement = (PreparedStatement) cn.prepareStatement(sql)) {
+            statement.setInt(1, p.getNIC());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            // Manejar la excepción de SQL
+            e.printStackTrace();
+            return;
+        }
+        // Actualizar la TableView
+        tblProveedor.refresh();
+    }
+
+    @FXML
+    private void seleccionar(MouseEvent event) {
+        Proveedor p = this.tblProveedor.getSelectionModel().getSelectedItem();
+
+        if (p != null) {
+            this.txtNIC.setText(p.getNIC() + "");
+            this.txtNombre.setText(p.getNombre());
+            this.txtDireccion.setText(p.getDireccion());
+            this.txtTelefono.setText(p.getTelefono());
+        }
     }
 
 }
