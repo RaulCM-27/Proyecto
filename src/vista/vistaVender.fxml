@@ -67,12 +67,12 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField layoutX="150.0" layoutY="14.0" opacity="0.88" prefHeight="25.0" prefWidth="89.0" />
-      <TextField layoutX="148.0" layoutY="64.0" opacity="0.88" prefHeight="25.0" prefWidth="89.0" />
-      <TextField layoutX="326.0" layoutY="14.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
-      <TextField layoutX="325.0" layoutY="64.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
-      <TextField layoutX="557.0" layoutY="14.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
-      <TextField layoutX="555.0" layoutY="64.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtCodigo" layoutX="150.0" layoutY="14.0" onAction="#buscarProducto" opacity="0.88" prefHeight="25.0" prefWidth="89.0" />
+      <TextField fx:id="txtCantidad" layoutX="148.0" layoutY="64.0" opacity="0.88" prefHeight="25.0" prefWidth="89.0" />
+      <TextField fx:id="txtMarca" layoutX="326.0" layoutY="14.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtPrecio" layoutX="325.0" layoutY="64.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtModelo" layoutX="557.0" layoutY="14.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtStock" layoutX="555.0" layoutY="64.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
       <Button id="anchorPane" fx:id="btnGuardar" layoutX="226.0" layoutY="100.0" mnemonicParsing="false" onAction="#setAddVender" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="AGREGAR" textFill="WHITE">
          <font>
             <Font size="14.0" />
@@ -119,10 +119,10 @@
             <TableColumn prefWidth="133.0" text="TOTAL" />
         </columns>
       </TableView>
-      <TextField layoutX="122.0" layoutY="413.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
-      <TextField layoutX="122.0" layoutY="453.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
-      <TextField layoutX="396.0" layoutY="413.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
-      <TextField layoutX="396.0" layoutY="453.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
-      <TextField layoutX="607.0" layoutY="413.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtCliente" layoutX="122.0" layoutY="413.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtNombreCliente" layoutX="122.0" layoutY="453.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtPago" layoutX="396.0" layoutY="413.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtCambio" layoutX="396.0" layoutY="453.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtTotal" layoutX="607.0" layoutY="413.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
    </children>
 </AnchorPane>

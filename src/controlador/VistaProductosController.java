@@ -7,7 +7,6 @@ package controlador;
 import com.mysql.jdbc.Connection;
 import conexion.Conexion;
 import java.net.URL;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,8 +39,6 @@ public class VistaProductosController implements Initializable {
     @FXML
     private Button btnLimpiar;
     @FXML
-    private Button btnEliminar;
-    @FXML
     private TextField txtMarca;
     @FXML
     private TextField txtCodigo;
@@ -52,9 +49,7 @@ public class VistaProductosController implements Initializable {
     @FXML
     private TextField txtModelo;
     @FXML
-    private TextField txtPrecioCompra;
-    @FXML
-    private TextField txtPrecioVenta;
+    private TextField txtCantidad;
     @FXML
     private ComboBox<Proveedor> txtProveedor;
     @FXML
@@ -75,13 +70,15 @@ public class VistaProductosController implements Initializable {
     private TableColumn colCantidad;
     @FXML
     private TableColumn colPrecioVenta;
+    @FXML
+    private TextField txtPrecio;
+    @FXML
+    private MenuItem contextMenu;
 
     Productos cab;
 
     Conexion con = new Conexion();
     Connection cn = con.ConectarseBD();
-    @FXML
-    private MenuItem contextMenu;
 
     /**
      * Initializes the controller class.
@@ -92,19 +89,18 @@ public class VistaProductosController implements Initializable {
         colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
         colModelo.setCellValueFactory(new PropertyValueFactory<>("Modelo"));
         colRam.setCellValueFactory(new PropertyValueFactory<>("ram"));
-        colAlmacenamiento.setCellValueFactory(new PropertyValueFactory<>("almacenamiento"));
         colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        colAlmacenamiento.setCellValueFactory(new PropertyValueFactory<>("almacenamiento"));
         colPrecioVenta.setCellValueFactory(new PropertyValueFactory<>("precioVenta"));
 
         initCombo();
-        llenarTabla("Productos");
+        
+        llenarTablaPS("Productos");
     }
 
     public void initCombo() {
         Proveedor p = new Proveedor();
-
         ObservableList<Proveedor> obsProveedor = p.getProveedores();
-
         this.txtProveedor.setItems(obsProveedor);
     }
 
@@ -115,9 +111,9 @@ public class VistaProductosController implements Initializable {
             String marca = txtMarca.getText();
             String modelo = txtModelo.getText();
             String ram = txtRam.getText();
+            int cantidad = Integer.parseInt(txtCantidad.getText());
             String almacenamiento = txtAlmacenamiento.getText();
-            float precioVenta = Float.parseFloat(txtPrecioVenta.getText());
-            float precioCompra = Float.parseFloat(txtPrecioCompra.getText());
+            float precioVenta = Float.parseFloat(txtPrecio.getText());
             String proveedor = txtProveedor.getSelectionModel().getSelectedItem().toString();
 
             if (getBuscarCod(cod)) {
@@ -143,7 +139,7 @@ public class VistaProductosController implements Initializable {
             }
 
             // Agregar productos a la lista 
-            Productos pro = new Productos(cod, marca, modelo, ram, almacenamiento, precioVenta, precioCompra, proveedor);
+            Productos pro = new Productos(cod, marca, modelo, ram, cantidad, almacenamiento, precioVenta);
             if (cab == null) {
                 cab = pro;
             } else {
@@ -156,14 +152,14 @@ public class VistaProductosController implements Initializable {
             tblProductos.getItems().add(pro);
 
             // Insertar datos en la base de datos
-            String consulta = "INSERT INTO productos (codigo, marca, modelo, ram, almacenamiento, precioCompra, precioVenta, idproveedor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String consulta = "INSERT INTO productos(codigo, marca, modelo, ram, cantidad, almacenamiento, precioVenta, idproveedor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             try ( Connection conn = con.ConectarseBD();  PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
                 ps.setInt(1, cod);
                 ps.setString(2, marca);
                 ps.setString(3, modelo);
                 ps.setString(4, ram);
                 ps.setString(5, almacenamiento);
-                ps.setFloat(6, precioCompra);
+                ps.setInt(6, cantidad);
                 ps.setFloat(7, precioVenta);
                 ps.setString(8, proveedor);
                 ps.executeUpdate();
@@ -188,10 +184,10 @@ public class VistaProductosController implements Initializable {
         txtMarca.setText("");
         txtModelo.setText("");
         txtRam.setText("");
+        txtCantidad.setText("");
         txtAlmacenamiento.setText("");
+        txtPrecio.setText("");
         txtProveedor.getSelectionModel().clearSelection();
-        txtPrecioCompra.setText("");
-        txtPrecioVenta.setText("");
     }
 
     public boolean getBuscarCod(int cod) {
@@ -212,7 +208,7 @@ public class VistaProductosController implements Initializable {
 
     private boolean existeCODEnBD(int cod) {
         String consulta = "SELECT codigo FROM productos WHERE codigo = ?";
-        try ( Connection conn = con.ConectarseBD();  com.mysql.jdbc.PreparedStatement ps = (com.mysql.jdbc.PreparedStatement) conn.prepareStatement(consulta)) {
+        try ( Connection conn = con.ConectarseBD();  PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
             ps.setInt(1, cod);
             try ( ResultSet rs = ps.executeQuery()) {
                 return rs.next();
@@ -223,7 +219,7 @@ public class VistaProductosController implements Initializable {
         return false;
     }
 
-    public void llenarTabla(String tabla) {
+    public void llenarTablaPS(String tabla) {
         String sql = "SELECT * FROM " + tabla;
         Conexion con = new Conexion();
         Connection cn = con.ConectarseBD();
@@ -232,8 +228,8 @@ public class VistaProductosController implements Initializable {
         colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
         colModelo.setCellValueFactory(new PropertyValueFactory<>("modelo"));
         colRam.setCellValueFactory(new PropertyValueFactory<>("ram"));
-        colAlmacenamiento.setCellValueFactory(new PropertyValueFactory<>("almacenamiento"));
         colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        colAlmacenamiento.setCellValueFactory(new PropertyValueFactory<>("almacenamiento"));
         colPrecioVenta.setCellValueFactory(new PropertyValueFactory<>("precioVenta"));
 
         try {
@@ -243,15 +239,15 @@ public class VistaProductosController implements Initializable {
             ObservableList<Productos> productos = FXCollections.observableArrayList();
 
             while (rs.next()) {
-                int cod = rs.getInt("codigo");
+                int codigo = rs.getInt("codigo");
                 String marca = rs.getString("marca");
                 String modelo = rs.getString("modelo");
                 String ram = rs.getString("ram");
-                String almacenamiento = rs.getString("almacenamiento");
                 int cantidad = rs.getInt("cantidad");
-                float precioVenta = rs.getFloat("precioVenta");
+                String almacenamiento = rs.getString("almacenamiento");
+                float precio = rs.getFloat("precioVenta");
 
-                Productos producto = new Productos(cod, marca, modelo, ram, almacenamiento, cantidad, (int) precioVenta);
+                Productos producto = new Productos(codigo, marca, modelo, ram, cantidad, almacenamiento, precio);
                 productos.add(producto);
             }
 
@@ -271,14 +267,15 @@ public class VistaProductosController implements Initializable {
         txtMarca.setText("");
         txtModelo.setText("");
         txtRam.setText("");
+        txtCantidad.setText("");
         txtAlmacenamiento.setText("");
+        txtPrecio.setText("");
         txtProveedor.getSelectionModel().clearSelection();
-        txtPrecioCompra.setText("");
-        txtPrecioVenta.setText("");
     }
 
     @FXML
     private void eliminarProducto(ActionEvent event) {
+
         int cod = Integer.parseInt(txtCodigo.getText());
 
         Productos actual = cab;
@@ -326,15 +323,15 @@ public class VistaProductosController implements Initializable {
     @FXML
     private void seleccionar(MouseEvent event) {
         Productos p = this.tblProductos.getSelectionModel().getSelectedItem();
-        
+
         if (p != null) {
             txtCodigo.setText(p.getCodigo() + "");
             txtMarca.setText(p.getMarca());
             txtModelo.setText(p.getModelo());
             txtRam.setText(p.getRam());
             txtAlmacenamiento.setText(p.getAlmacenamiento());
-            txtPrecioCompra.setText(p.getPrecioCompra() + "");
-            txtPrecioVenta.setText(p.getPrecioVenta() + "");
+            txtCantidad.setText(p.getCantidad() + "");
+            txtPrecio.setText(p.getPrecioVenta() + "");
         }
     }
 

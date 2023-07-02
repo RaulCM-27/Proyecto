@@ -43,12 +43,12 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="605.0" layoutY="15.0" text="Precio Compra:" textFill="WHITE">
+            <Label layoutX="605.0" layoutY="15.0" text="Precio:" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="606.0" layoutY="75.0" text="Precio Venta:" textFill="WHITE">
+            <Label layoutX="606.0" layoutY="75.0" text="Cantidad:" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
@@ -63,8 +63,8 @@
             <TextField fx:id="txtRam" layoutX="48.0" layoutY="97.0" opacity="0.88" prefHeight="25.0" prefWidth="94.0" />
             <TextField fx:id="txtAlmacenamiento" layoutX="188.0" layoutY="97.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
             <TextField fx:id="txtModelo" layoutX="399.0" layoutY="35.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
-            <TextField fx:id="txtPrecioCompra" layoutX="604.0" layoutY="35.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
-            <TextField fx:id="txtPrecioVenta" layoutX="604.0" layoutY="95.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
+            <TextField fx:id="txtPrecio" layoutX="604.0" layoutY="35.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
+            <TextField fx:id="txtCantidad" layoutX="604.0" layoutY="95.0" opacity="0.88" prefHeight="25.0" prefWidth="171.0" />
             <Button id="anchorPane" fx:id="btnAgregar" layoutX="272.0" layoutY="132.0" mnemonicParsing="false" onAction="#setAddAgregar" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="AGREGAR" textFill="WHITE">
                <font>
                   <Font size="14.0" />

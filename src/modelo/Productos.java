@@ -10,47 +10,33 @@ public class Productos {
     String marca;
     String modelo;
     String ram;
+    int cantidad;
     String almacenamiento;
     float precioVenta;
-    float precioCompra;
     String proveedor;
-    int cant;
     Productos sig;
 
-    public Productos(int codigo, String marca, String modelo, String ram, String almacenamiento, float precioVenta, float precioCompra, String proveedor, int cant) {
+    public Productos(int codigo, String marca, String modelo, String ram, int cantidad, String almacenamiento, float precioVenta, String proveedor) {
         this.codigo = codigo;
         this.marca = marca;
         this.modelo = modelo;
         this.ram = ram;
+        this.cantidad = cantidad;
         this.almacenamiento = almacenamiento;
         this.precioVenta = precioVenta;
-        this.precioCompra = precioCompra;
         this.proveedor = proveedor;
-        this.cant = cant;
         sig=null;
     }
 
-    public Productos(int codigo, String marca, String modelo, String ram, String almacenamiento, float precioVenta, float precioCompra, String proveedor) {
+    public Productos(int codigo, String marca, String modelo, String ram, int cantidad, String almacenamiento, float precioVenta) {
         this.codigo = codigo;
         this.marca = marca;
         this.modelo = modelo;
         this.ram = ram;
+        this.cantidad = cantidad;
         this.almacenamiento = almacenamiento;
         this.precioVenta = precioVenta;
-        this.precioCompra = precioCompra;
-        this.proveedor = proveedor;
     }
-
-    public Productos(int codigo, String marca, String modelo, String ram, String almacenamiento, float precioVenta, int cant) {
-        this.codigo = codigo;
-        this.marca = marca;
-        this.modelo = modelo;
-        this.ram = ram;
-        this.almacenamiento = almacenamiento;
-        this.precioVenta = precioVenta;
-        this.cant = cant;
-    }
-    
 
     public int getCodigo() {
         return codigo;
@@ -84,6 +70,14 @@ public class Productos {
         this.ram = ram;
     }
 
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
     public String getAlmacenamiento() {
         return almacenamiento;
     }
@@ -100,28 +94,12 @@ public class Productos {
         this.precioVenta = precioVenta;
     }
 
-    public float getPrecioCompra() {
-        return precioCompra;
-    }
-
-    public void setPrecioCompra(float precioCompra) {
-        this.precioCompra = precioCompra;
-    }
-
     public String getProveedor() {
         return proveedor;
     }
 
     public void setProveedor(String proveedor) {
         this.proveedor = proveedor;
-    }
-
-    public int getCant() {
-        return cant;
-    }
-
-    public void setCant(int cant) {
-        this.cant = cant;
     }
 
     public Productos getSig() {
@@ -132,5 +110,6 @@ public class Productos {
         this.sig = sig;
     }
 
+    
     
 }
