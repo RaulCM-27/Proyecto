@@ -56,6 +56,8 @@ public class VistaVenderController implements Initializable {
 
     Conexion con = new Conexion();
     Connection cn = con.ConectarseBD();
+    @FXML
+    private Button btnComprar;
     /**
      * Initializes the controller class.
      */
@@ -104,6 +106,10 @@ public class VistaVenderController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void generarCompra(ActionEvent event) {
     }
     
 }
