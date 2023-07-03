@@ -111,7 +111,6 @@ public class VistaProductosController implements Initializable {
             String marca = txtMarca.getText();
             String modelo = txtModelo.getText();
             String ram = txtRam.getText();
-            int cantidad = Integer.parseInt(txtCantidad.getText());
             String almacenamiento = txtAlmacenamiento.getText();
             float precioVenta = Float.parseFloat(txtPrecio.getText());
             String proveedor = txtProveedor.getSelectionModel().getSelectedItem().toString();
@@ -139,7 +138,7 @@ public class VistaProductosController implements Initializable {
             }
 
             // Agregar productos a la lista 
-            Productos pro = new Productos(cod, marca, modelo, ram, cantidad, almacenamiento, precioVenta);
+            Productos pro = new Productos(cod, marca, modelo, ram, almacenamiento, precioVenta, proveedor);
             if (cab == null) {
                 cab = pro;
             } else {
@@ -152,16 +151,16 @@ public class VistaProductosController implements Initializable {
             tblProductos.getItems().add(pro);
 
             // Insertar datos en la base de datos
-            String consulta = "INSERT INTO productos(codigo, marca, modelo, ram, cantidad, almacenamiento, precioVenta, idproveedor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            try ( Connection conn = con.ConectarseBD();  PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
+            String consulta = "INSERT INTO productos(codigo, marca, modelo, ram, almacenamiento, precioVenta, idproveedor) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            try ( Connection conn = con.ConectarseBD();  
+                PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
                 ps.setInt(1, cod);
                 ps.setString(2, marca);
                 ps.setString(3, modelo);
                 ps.setString(4, ram);
                 ps.setString(5, almacenamiento);
-                ps.setInt(6, cantidad);
-                ps.setFloat(7, precioVenta);
-                ps.setString(8, proveedor);
+                ps.setFloat(6, precioVenta);
+                ps.setString(7, proveedor);
                 ps.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();

@@ -15,25 +15,37 @@ public class Comprar {
     String modeloP;
     int cantidad;
     float total;
+    String proveedorP;
 
-    public Comprar(int id, int codProducto, String marcaP, String modeloP, int cantidad, float total) {
+    public Comprar(int id, int codProducto, String marcaP, String modeloP, int cantidad, float total, String proveedorP) {
         this.id = id;
         this.codProducto = codProducto;
         this.marcaP = marcaP;
         this.modeloP = modeloP;
         this.cantidad = cantidad;
         this.total = total;
+        this.proveedorP = proveedorP;
     }
 
-    public Comprar(int codProducto, String marcaP, String modeloP, int cantidad, float total) {
+    public Comprar(int codProducto, String marcaP, String modeloP, int cantidad, float total, String proveedorP) {
         this.codProducto = codProducto;
         this.marcaP = marcaP;
         this.modeloP = modeloP;
         this.cantidad = cantidad;
         this.total = total;
+        this.proveedorP = proveedorP;
+    }
+    
+    
+
+    public String getProveedorP() {
+        return proveedorP;
     }
 
-    
+    public void setProveedorP(String proveedorP) {
+        this.proveedorP = proveedorP;
+    }
+
     public int getCodProducto() {
         return codProducto;
     }
@@ -81,6 +93,4 @@ public class Comprar {
     public void setTotal(float total) {
         this.total = total;
     }
-    
-    
 }

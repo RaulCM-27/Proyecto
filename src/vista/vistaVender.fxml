@@ -12,67 +12,67 @@
 
 <AnchorPane id="AnchorPane" prefHeight="490.0" prefWidth="823.0" style="-fx-background-color: #08071B;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.VistaVenderController">
    <children>
-      <Label layoutX="92.0" layoutY="16.0" text="Código:" textFill="WHITE">
+      <Label layoutX="92.0" layoutY="18.0" text="Código:" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="79.0" layoutY="66.0" text="Cantidad:" textFill="WHITE">
+      <Label layoutX="84.0" layoutY="65.0" prefHeight="20.0" prefWidth="65.0" text="Cantidad:" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="272.0" layoutY="17.0" text="Marca:" textFill="WHITE">
+      <Label layoutX="326.0" layoutY="18.0" text="Marca:" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="270.0" layoutY="67.0" text="Precio:" textFill="WHITE">
+      <Label layoutX="326.0" layoutY="64.0" text="Precio:" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="495.0" layoutY="17.0" text="Modelo:" textFill="WHITE">
+      <Label layoutX="544.0" layoutY="18.0" text="Modelo:" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="511.0" layoutY="66.0" text="Stock:" textFill="WHITE">
+      <Label layoutX="563.0" layoutY="64.0" text="Stock:" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="51.0" layoutY="415.0" text="ID-Cliente:" textFill="WHITE">
+      <Label layoutX="35.0" layoutY="417.0" text="ID-Cliente:" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="299.0" layoutY="415.0" text="Pago Efectivo:" textFill="WHITE">
+      <Label layoutX="332.0" layoutY="417.0" text="Pago Efectivo:" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="563.0" layoutY="415.0" text="Total:" textFill="WHITE">
+      <Label layoutX="595.0" layoutY="417.0" text="Total:" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="56.0" layoutY="455.0" text="Nombre:" textFill="WHITE">
+      <Label layoutX="40.0" layoutY="457.0" text="Nombre:" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="335.0" layoutY="455.0" text="Cambio:" textFill="WHITE">
+      <Label layoutX="365.0" layoutY="458.0" text="Cambio:" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txtCodigo" layoutX="150.0" layoutY="14.0" onAction="#buscarProducto" opacity="0.88" prefHeight="25.0" prefWidth="89.0" />
-      <TextField fx:id="txtCantidad" layoutX="148.0" layoutY="64.0" opacity="0.88" prefHeight="25.0" prefWidth="89.0" />
-      <TextField fx:id="txtMarca" layoutX="326.0" layoutY="14.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
-      <TextField fx:id="txtPrecio" layoutX="325.0" layoutY="64.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
-      <TextField fx:id="txtModelo" layoutX="557.0" layoutY="14.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
-      <TextField fx:id="txtStock" layoutX="555.0" layoutY="64.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtCodigo" layoutX="147.0" layoutY="15.0" onAction="#buscarProducto" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtCantidad" layoutX="147.0" layoutY="62.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtMarca" layoutX="380.0" layoutY="15.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtPrecio" layoutX="380.0" layoutY="60.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtModelo" layoutX="606.0" layoutY="15.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtStock" layoutX="607.0" layoutY="60.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
       <Button id="anchorPane" fx:id="btnGuardar" layoutX="226.0" layoutY="100.0" mnemonicParsing="false" onAction="#setAddVender" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="AGREGAR" textFill="WHITE">
          <font>
             <Font size="14.0" />
@@ -97,37 +97,45 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="btnEliminar" layoutX="487.0" layoutY="100.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="ELIMINAR" textFill="WHITE">
+      <Button fx:id="btnCalcular" layoutX="487.0" layoutY="100.0" mnemonicParsing="false" onAction="#calcularPago" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="CALCULAR" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
          <graphic>
-            <ImageView fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="21.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../imagenes/eliminar%20(1).png" />
+                  <Image url="@../imagenes/metodo-de-pago.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
       <TableView layoutX="14.0" layoutY="145.0" prefHeight="258.0" prefWidth="793.0">
         <columns>
-          <TableColumn prefWidth="93.0" text="CÓDIGO" />
-          <TableColumn prefWidth="138.0" text="MARCA" />
-            <TableColumn prefWidth="163.0" text="MODELO" />
-            <TableColumn prefWidth="118.0" text="CANTIDAD" />
-            <TableColumn prefWidth="147.0" text="PRECIO" />
-            <TableColumn prefWidth="133.0" text="TOTAL" />
+          <TableColumn fx:id="colCodigo" prefWidth="61.0" text="CÓDIGO" />
+          <TableColumn fx:id="colMarca" prefWidth="112.0" text="MARCA" />
+            <TableColumn fx:id="colModelo" prefWidth="131.0" text="MODELO" />
+            <TableColumn fx:id="colCantidad" prefWidth="92.0" text="CANTIDAD" />
+            <TableColumn fx:id="colPrecio" prefWidth="154.0" text="PRECIO" />
+            <TableColumn fx:id="colTotal" minWidth="1.0" prefWidth="124.0" text="TOTAL" />
+            <TableColumn fx:id="colTotalPagar" prefWidth="118.0" text="TOTAL PAGAR" />
         </columns>
       </TableView>
-      <TextField fx:id="txtCliente" layoutX="122.0" layoutY="413.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
-      <TextField fx:id="txtNombreCliente" layoutX="122.0" layoutY="453.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
-      <TextField fx:id="txtPago" layoutX="396.0" layoutY="413.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
-      <TextField fx:id="txtCambio" layoutX="396.0" layoutY="453.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
-      <TextField fx:id="txtTotal" layoutX="607.0" layoutY="413.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
-      <Button fx:id="btnComprar" layoutX="607.0" layoutY="447.0" mnemonicParsing="false" onAction="#generarCompra" prefHeight="33.0" prefWidth="151.0" style="-fx-background-color: #2848BA;" text="VENDER" textFill="WHITE">
+      <TextField fx:id="txtCliente" layoutX="106.0" layoutY="415.0" onAction="#buscarCliente" opacity="0.88" prefHeight="25.0" prefWidth="193.0" />
+      <TextField fx:id="txtNombreCliente" layoutX="106.0" layoutY="455.0" opacity="0.88" prefHeight="25.0" prefWidth="193.0" />
+      <TextField fx:id="txtPago" layoutX="429.0" layoutY="415.0" onAction="#calcularCambio" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtCambio" layoutX="427.0" layoutY="455.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <TextField fx:id="txtTotal" layoutX="639.0" layoutY="415.0" opacity="0.88" prefHeight="25.0" prefWidth="151.0" />
+      <Button fx:id="btnImprimir" layoutX="639.0" layoutY="449.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="151.0" style="-fx-background-color: #2848BA;" text="IMPRIMIR" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagenes/impresora.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
    </children>
 </AnchorPane>

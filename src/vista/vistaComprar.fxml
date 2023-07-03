@@ -52,7 +52,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button id="anchorPane" fx:id="btnGuardar" layoutX="224.0" layoutY="101.0" mnemonicParsing="false" onAction="#setAddVender" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="AGREGAR" textFill="WHITE">
+            <Button id="anchorPane" fx:id="btnGuardar" layoutX="224.0" layoutY="101.0" mnemonicParsing="false" onAction="#setAddAgregar" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #2848BA;" text="AGREGAR" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>

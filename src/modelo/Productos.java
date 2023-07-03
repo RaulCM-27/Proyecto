@@ -28,6 +28,22 @@ public class Productos {
         sig=null;
     }
 
+    public Productos(int codigo, String marca, String modelo, String ram, String almacenamiento, float precioVenta, String proveedor) {
+        this.codigo = codigo;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.ram = ram;
+        this.almacenamiento = almacenamiento;
+        this.precioVenta = precioVenta;
+        this.proveedor = proveedor;
+    }
+
+    
+
+    
+    
+    
+
     public Productos(int codigo, String marca, String modelo, String ram, int cantidad, String almacenamiento, float precioVenta) {
         this.codigo = codigo;
         this.marca = marca;

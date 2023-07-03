@@ -78,6 +78,7 @@ public class VistaComprarController implements Initializable {
     Connection cn = con.ConectarseBD();
 
     Stack<Comprar> productosTemporales = new Stack<>();
+
     /**
      * Initializes the controller class.
      */
@@ -88,57 +89,73 @@ public class VistaComprarController implements Initializable {
         colModelo.setCellValueFactory(new PropertyValueFactory<>("modeloP"));
         colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
         colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
-        colProveedor.setCellFactory(new PropertyValueFactory<>("proveedor"));
+        colProveedor.setCellValueFactory(new PropertyValueFactory<>("proveedorP"));
     }
 
     @FXML
-    private void setAddVender(ActionEvent event) {
+    private void setAddAgregar(ActionEvent event) {
 
         int codP = Integer.parseInt(txtCodigo.getText());
         String marcaP = txtMarca.getText();
         String modeloP = txtModelo.getText();
         int cantidad = Integer.parseInt(txtCantidad.getText());
         float total = Float.parseFloat(txtTotalPagar.getText());
+        String proveedor = txtProveedor.getText();
 
-        Comprar compra = new Comprar(codP, marcaP, modeloP, cantidad, total);
+        try {
 
-        int pos = productosTemporales.indexOf(compra);
+            Comprar compra = new Comprar(codP, marcaP, modeloP, cantidad, total, proveedor);
 
-        if (pos == -1) {
-            productosTemporales.push(compra);  //Se invoca al método pusch que ya tiene Stack
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Producto Agregado");
-            alert.showAndWait();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("El producto ya esta agregado");
+            int pos = productosTemporales.indexOf(compra);
+
+            if (pos == -1) {
+                productosTemporales.push(compra);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Producto Agregado");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("El producto ya esta agregado");
+                alert.showAndWait();
+            }
+
+            tblComprar.getItems().add(compra);
+            tblComprar.refresh();
+
+            String consulta = "INSERT INTO comprar(codigoP, marcaP, modeloP, cantidad, total, proveedor) VALUES (?, ?, ?, ?, ?, ?)";
+            try ( Connection conn = con.ConectarseBD(); 
+                   PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
+                ps.setInt(1, codP);
+                ps.setString(2, marcaP);
+                ps.setString(3, modeloP);
+                ps.setInt(4, cantidad);
+                ps.setFloat(5, total);
+                ps.setString(6, proveedor);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(null);
+            alert.setHeaderText("Valor no válido");
+            alert.setContentText("DATOS NO VÁLIDOS");
             alert.showAndWait();
         }
 
-        tblComprar.getItems().add(compra);
-
-        String consulta = "INSERT INTO comprar(codigoP, marcaP, modeloP, cantidad, total) VALUES (?, ?, ?, ?, ?)";
-        try ( Connection conn = con.ConectarseBD();  PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
-            ps.setInt(1, codP);
-            ps.setString(2, marcaP);
-            ps.setString(3, modeloP);
-            ps.setInt(4, cantidad);
-            ps.setFloat(5, total);
+        String consulta = "UPDATE productos SET cantidad = cantidad + ? WHERE codigo = ? ";
+        try ( Connection conn = con.ConectarseBD();  
+              PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
+            ps.setInt(1, cantidad);
+            ps.setInt(2, codP);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        txtCodigo.clear();
-        txtMarca.clear();
-        txtModelo.clear();
-        txtCantidad.clear();
-        txtPrecio.clear();
-        txtTotalPagar.clear();
     }
 
     @FXML
@@ -149,6 +166,7 @@ public class VistaComprarController implements Initializable {
         txtCantidad.clear();
         txtPrecio.clear();
         txtTotalPagar.clear();
+        txtProveedor.clear();
     }
 
     @FXML
@@ -157,8 +175,7 @@ public class VistaComprarController implements Initializable {
         int codigo = Integer.parseInt(txtCodigo.getText());
 
         String consulta = "SELECT * FROM productos WHERE codigo = ?";
-        try ( Connection conn = con.ConectarseBD();  
-            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
+        try ( Connection conn = con.ConectarseBD();  PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
             ps.setInt(1, codigo);
             ResultSet rs = ps.executeQuery();
 
@@ -167,6 +184,7 @@ public class VistaComprarController implements Initializable {
                 txtMarca.setText(rs.getString("marca"));
                 txtModelo.setText(rs.getString("modelo"));
                 txtPrecio.setText(rs.getFloat("precioVenta") + "");
+                txtProveedor.setText(rs.getString("idproveedor") + "");
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
@@ -227,6 +245,7 @@ public class VistaComprarController implements Initializable {
             txtModelo.setText(p.getModeloP());
             txtCantidad.setText(p.getCantidad() + "");
             txtTotalPagar.setText(p.getTotal() + "");
+            txtProveedor.setText(p.getProveedorP());
         }
     }
 
