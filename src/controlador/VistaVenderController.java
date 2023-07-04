@@ -4,20 +4,39 @@
  */
 package controlador;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import conexion.Conexion;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.Stack;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import modelo.Vender;
 
 /**
  * FXML Controller class
@@ -30,6 +49,8 @@ public class VistaVenderController implements Initializable {
     private Button btnGuardar;
     @FXML
     private Button btnLimpiar;
+    @FXML
+    private Button btnVender;
     @FXML
     private TextField txtCodigo;
     @FXML
@@ -51,8 +72,6 @@ public class VistaVenderController implements Initializable {
     @FXML
     private TextField txtTotal;
     @FXML
-    private Button btnImprimir;
-    @FXML
     private TextField txtStock;
     @FXML
     private Button btnCalcular;
@@ -69,7 +88,9 @@ public class VistaVenderController implements Initializable {
     @FXML
     private TableColumn colTotal;
     @FXML
-    private TableColumn colTotalPagar;
+    private TableView tblVender;
+
+    Stack<Vender> proTemporales = new Stack<>();
 
     Conexion con = new Conexion();
     Connection cn = con.ConectarseBD();
@@ -79,12 +100,78 @@ public class VistaVenderController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+        colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
+        colModelo.setCellValueFactory(new PropertyValueFactory<>("modelo"));
+        colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
     }
 
     @FXML
-    private void setAddVender(ActionEvent event) {
+    private void setAddAgregar(ActionEvent event) {
+        int codigo = Integer.parseInt(txtCodigo.getText());
+        String marca = txtMarca.getText();
+        String modelo = txtModelo.getText();
+        int cantidad = Integer.parseInt(txtCantidad.getText());
+        float precio = Float.parseFloat(txtPrecio.getText());
+        float total = Float.parseFloat(txtTotal.getText());
+        String dniCliente = txtCliente.getText();
+        String nombreC = txtNombreCliente.getText();
 
+        try {
+
+            Vender vender = new Vender(codigo, marca, modelo, cantidad, precio, total);
+
+            int pos = proTemporales.indexOf(vender);
+
+            if (pos == -1) {
+                proTemporales.push(vender);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Producto Agregado");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("El producto ya esta agregado");
+                alert.showAndWait();
+            }
+
+            tblVender.getItems().add(vender);
+            tblVender.refresh();
+
+            String consulta = "INSERT INTO vender(codigoP, marcaP, modeloP, cantidadP, totalP, dniC, nombreC) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            try ( Connection conn = con.ConectarseBD();  PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
+                ps.setInt(1, codigo);
+                ps.setString(2, marca);
+                ps.setString(3, modelo);
+                ps.setInt(4, cantidad);
+                ps.setFloat(5, total);
+                ps.setString(6, dniCliente);
+                ps.setString(7, nombreC);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(null);
+            alert.setHeaderText("Valor no válido");
+            alert.setContentText("DATOS NO VÁLIDOS");
+            alert.showAndWait();
+        }
+
+        String consulta = "UPDATE productos SET cantidad = cantidad - ? WHERE codigo = ? ";
+        try ( Connection conn = con.ConectarseBD();  PreparedStatement ps = (PreparedStatement) conn.prepareStatement(consulta)) {
+            ps.setInt(1, cantidad);
+            ps.setInt(2, codigo);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -171,7 +258,7 @@ public class VistaVenderController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Valores no válidos");
             alert.showAndWait();
-            txtTotal.setText(""); 
+            txtTotal.setText("");
         }
     }
 
@@ -198,8 +285,42 @@ public class VistaVenderController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Pago o total no válidos");
             alert.showAndWait();
-            txtCambio.setText(""); // Limpia el campo de texto de cambio
+            txtCambio.setText(""); 
         }
+    }
+
+    @FXML
+    private void vender(ActionEvent event) {
+        if (!proTemporales.empty()) {
+            proTemporales.pop();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(null);
+            alert.setHeaderText(null);
+            alert.setContentText("VENTA REALIZADA");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(null);
+            alert.setHeaderText(null);
+            alert.setContentText("NO HAY ELEMENTOS EN LA PILA");
+            alert.showAndWait();
+        }
+
+        tblVender.getItems().clear();
+    }
+
+    @FXML
+    private void limpiar(ActionEvent event) {
+        txtCodigo.clear();
+        txtMarca.clear();
+        txtModelo.clear();
+        txtPrecio.clear();
+        txtStock.clear();
+        txtCantidad.clear();
+        txtCliente.clear();
+        txtNombreCliente.clear();
+        txtTotal.clear();
+        txtPago.clear();
     }
 
 }
